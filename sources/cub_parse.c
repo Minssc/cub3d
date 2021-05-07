@@ -123,22 +123,23 @@ void			cub_parse(const char *cub_file)
 	int			fd;
 	char		*line;
 	t_list		*list;
-	t_list		*nlist;
 	int			rmap;
 
 	rmap = 0;
 	list = 0;
 	if ((fd = open(cub_file, O_RDONLY)) < 0)
-		perror_exit("failed to read .cub file");
+		perror_exit("Failed to read .cub file");
 	while (get_next_line(fd, &line))
 	{
 		if (rmap || !parse(line))
 		{
 			rmap = 1;
-			nlist = ft_lstnew((void *)ft_strdup(line));
-			ft_lstadd_back(&list, nlist);
+			ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(line)));
 		}
+		free(line);
 	}
+	ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(line)));
+	free(line);
 	map_parse(list);
 	print_cubd(g_cubd);
 }

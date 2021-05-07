@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 22:58:50 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/07 01:35:19 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/07 20:07:19 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,20 @@
 
 int			main(int argc, char *argv[])
 {
-	t_cubd	mdat;
-
-	if (argc != 2)
+	if (argc != 2 && argc != 3)
+	{
+		ft_putstr_fd("Usage: ./cub3D cub_file [--save]\n", 1);
 		return (1);
+	}
 	if (!cubd_init())
 		return (1);
-	cub_parse(argv[1], &mdat);
-
+	cub_parse(argv[1]);
+	/*
+	if (argc == 3 && argv[2][0] == '-' && argv[2][1] == '-' &&
+		argv[2][2] == 's' && argv[2][3] == 'a' && argv[2][4] == 'v' &&
+		argv[2][5] == 'e' && argv[2][6] == '\0')
+		//--SAVE
+	*/
 	cubd_destroy();
 	return (0);
 }
