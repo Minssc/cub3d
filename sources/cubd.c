@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 00:57:33 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/07 15:25:53 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/07 20:15:28 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 t_cubd		*g_cubd;
 
-int			cubd_init()
+int			cubd_init(void)
 {
 	if (!(g_cubd = ft_calloc(1, sizeof(t_cubd))))
 		return (0);
 	return (1);
 }
 
-void		cubd_destroy()
+void		cubd_destroy(void)
 {
 	int		i;
 
@@ -31,7 +31,7 @@ void		cubd_destroy()
 		while (++i < g_cubd->map.y)
 		{
 			if (!g_cubd->map.dat[i])
-				break;
+				break ;
 			free(g_cubd->map.dat[i]);
 			g_cubd->map.dat[i] = 0;
 		}

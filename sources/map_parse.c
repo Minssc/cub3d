@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 20:01:02 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/07 16:40:55 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/07 20:32:18 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ static int		valid_char(char c)
 	return (c == ' ' || c == '0' || c == '1' ||
 			c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
-/*
-	line needs at least 2 '1'
-	line cannot be empty
-*/
+
 static int		validate_line(char *line)
 {
 	int		onec;
@@ -43,7 +40,7 @@ static int		validate_line(char *line)
 		}
 		i++;
 	}
-	return (onec >= 2 ? len + 1: 0);
+	return (onec >= 2 ? len + 1 : 0);
 }
 
 static void print_map(t_map *map)
@@ -103,10 +100,11 @@ void			map_parse(t_list *list)
 		map->y++;
 		clist = clist->next;
 	}
-	if (!(map->dat = (t_byte **)calloc(map->y, sizeof(t_byte *))))
+	if (!(map->dat = (t_byte **)ft_calloc(map->y, sizeof(t_byte *))))
 		perror_exit("Malloc failed on g_cubd->map.dat");
 	while (++i < map->y)
 		if (!(map->dat[i] = (t_byte *)malloc(sizeof(t_byte) * map->x)))
 			perror_exit("Malloc failed on g_cubd->map.dat[x]");
 	parse_list(list);
+	map_validate();
 }
