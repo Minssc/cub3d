@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 22:58:50 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/05 23:47:00 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/07 01:35:19 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ int			main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (1);
+	if (!cubd_init())
+		return (1);
 	cub_parse(argv[1], &mdat);
+
+	cubd_destroy();
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 20:01:02 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/06 20:25:48 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/07 01:37:06 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int			map_parse(t_list *list, t_cubd *dat)
 	lsize = 0;
 	while (clist)
 	{
-		mmlen = ft_maxi(mmlen, ft_strlen((char *)clist->content));
+		printf("l:%s\n",(char *)clist->content);
+		//mmlen = ft_maxi(mmlen, ft_strlen((char *)clist->content));
 		lsize++;
 		clist = clist->next;
 	}

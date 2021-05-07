@@ -1,33 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_max.c                                           :+:      :+:    :+:   */
+/*   cubd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 20:11:19 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/07 01:13:02 by minsunki         ###   ########.fr       */
+/*   Created: 2021/05/07 00:57:33 by minsunki          #+#    #+#             */
+/*   Updated: 2021/05/07 01:33:29 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3d.h"
 
-int				ft_maxi(int a, int b)
+t_cubd		*g_cubd;
+
+int			cubd_init()
 {
-	return (a < b ? b : a);
+	if (!(g_cubd = ft_calloc(1, sizeof(t_cubd))))
+		return (0);
+	return (1);
 }
 
-long long		ft_maxll(long long a, long long b)
+void		cubd_destroy()
 {
-	return (a < b ? b : a);
-}
+	int		i;
 
-float			ft_maxf(float a, float b)
-{
-	return (a < b ? b : a);
-}
-
-double			ft_maxd(double a, double b)
-{
-	return (a < b ? b : a);
+	i = -1;
+	if (g_cubd->map.dat)
+	{
+		while (++i < g_cubd->map.y)
+		{
+			if (!g_cubd->map.dat[i])
+				break;
+			free(g_cubd->map.dat[i]);
+			g_cubd->map.dat[i] = 0;
+		}
+		free(g_cubd->map.dat);
+		g_cubd->map.dat = 0;
+	}
+	if (g_cubd)
+		free(g_cubd);
+	g_cubd = 0;
 }

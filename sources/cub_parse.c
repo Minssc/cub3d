@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 13:53:08 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/06 20:04:06 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/07 01:38:48 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int				cub_parse(const char *cub_file, t_cubd *dat)
 		if (rmap || !parse(line, dat))
 		{
 			rmap = 1;
+			printf("m:%s\n",line);
 			nlist = ft_lstnew((void *)ft_strdup(line));
 			ft_lstadd_back(&list, nlist);
 		}

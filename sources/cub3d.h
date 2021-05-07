@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/06 20:00:01 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/07 01:33:07 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,37 @@
 # define EAST 2
 # define WEST 3
 
-typedef unsigned int t_argb;
+typedef unsigned int	t_argb;
+typedef unsigned char	t_byte;
 
-typedef struct	s_res
+typedef struct			s_res
 {
-	int			x;
-	int			y;
-}				t_res;
+	int					x;
+	int					y;
+}						t_res;
 
-typedef struct	s_cubd
+typedef struct			s_map
 {
-	t_res		res;
-	char		*tex[4];
-	char		*sp;
-	t_argb		fc;
-	t_argb		cc;
-	char		**map;
-}				t_cubd;
+	t_byte				**dat;
+	int					x;
+	int					y;
+}						t_map;
 
-int			cub_parse(const char *cub_file, t_cubd *dat);
-int			map_parse(t_list *list, t_cubd *dat);
-void		perr_exit(char *estr);
+typedef struct			s_cubd
+{
+	t_res				res;
+	char				*tex[4];
+	char				*sp;
+	t_argb				fc;
+	t_argb				cc;
+	t_map				map;
+}						t_cubd;
+
+int						cub_parse(const char *cub_file, t_cubd *dat);
+int						map_parse(t_list *list, t_cubd *dat);
+void					perr_exit(char *estr);
+
+int						cubd_init();
+void					cubd_destroy();
 
 #endif

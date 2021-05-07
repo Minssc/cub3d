@@ -6,7 +6,7 @@
 #    By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/22 23:04:25 by minsunki          #+#    #+#              #
-#    Updated: 2021/05/06 20:24:26 by minsunki         ###   ########.fr        #
+#    Updated: 2021/05/07 01:17:29 by minsunki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ INCF		=	includes
 SRCS_R		=	main.c \
 				cub_parse.c \
 				map_parse.c \
-				error.c 
+				error.c \
+				cubd.c 
 SRCS		=	$(addprefix $(SRCF)/, $(SRCS_R))
 
 OBJS		=	$(SRCS:.c=.o)
