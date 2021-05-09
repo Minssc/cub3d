@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/07 20:13:37 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 17:19:42 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,10 @@ void			cub_parse(const char *cub_file)
 		}
 		free(line);
 	}
-	ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(line)));
+	if (line[0])
+		ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(line)));
 	free(line);
 	map_parse(list);
+	ft_lstclear(&list, free);
 	print_cubd(g_cubd);
 }

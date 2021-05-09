@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 20:01:02 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/07 20:32:18 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 17:23:42 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int		validate_line(char *line)
 		}
 		i++;
 	}
+	if (!i)
+		return (-1);
 	return (onec >= 2 ? len + 1 : 0);
 }
 
@@ -106,5 +108,4 @@ void			map_parse(t_list *list)
 		if (!(map->dat[i] = (t_byte *)malloc(sizeof(t_byte) * map->x)))
 			perror_exit("Malloc failed on g_cubd->map.dat[x]");
 	parse_list(list);
-	map_validate();
 }
