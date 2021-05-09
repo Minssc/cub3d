@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 20:17:31 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 20:57:47 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,11 @@ typedef struct			s_cubd
 
 void					cub_parse(const char *cub_file);
 void					map_parse(t_list *list);
-void					map_validate(void);
+
+void					map_validate(t_map *map);
+t_byte					map_at(t_map *map, int y, int x);
+t_byte					map_char_to_dir(t_byte c);
+
 void					perror_exit(char *estr);
 
 int						cubd_init(void);

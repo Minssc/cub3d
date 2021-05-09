@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 20:01:02 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 17:23:42 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 20:59:43 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,6 @@ static int		validate_line(char *line)
 	if (!i)
 		return (-1);
 	return (onec >= 2 ? len + 1 : 0);
-}
-
-static void print_map(t_map *map)
-{
-	printf("MAP DATA---\n");
-	for(int i=0; i<map->y; ++i)
-	{
-		for(int j=0; j<map->x; ++j)
-		{
-			printf("%c",map->dat[i][j]);
-		}
-		printf("\n");
-	}
-	printf("MAP DATA END\n");
 }
 
 static void		parse_list(t_list *list)

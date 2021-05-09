@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 22:58:50 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 17:25:33 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 20:44:32 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 */
 #include "cub3d.h"
 
-int			main(int argc, char *argv[])
+extern t_cubd	*g_cubd;
+
+int				main(int argc, char *argv[])
 {
 	if (argc != 2 && argc != 3)
 	{
@@ -29,7 +31,7 @@ int			main(int argc, char *argv[])
 	if (!cubd_init())
 		return (1);
 	cub_parse(argv[1]);
-	map_validate();
+	map_validate(&g_cubd->map);
 	/*
 	if (argc == 3 && argv[2][0] == '-' && argv[2][1] == '-' &&
 		argv[2][2] == 's' && argv[2][3] == 'a' && argv[2][4] == 'v' &&

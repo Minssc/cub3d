@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 17:19:42 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 21:01:18 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ static void		conv_res(const char *line, t_res *res)
 	if ((res->y = ft_atoi(sp)) <= 0)
 		perror_exit("Invalid resolution (y)");
 	free(sp);
-}
-
-static void pargb(t_argb argb){
-	printf("%3d %3d %3d %3d\n",
-			(argb>>24)&0xFF,
-			(argb>>16)&0xFF,
-			(argb>>8)&0xFF,
-			argb&0xFF);
 }
 
 static t_argb	conv_col(const char *line)
@@ -114,7 +106,7 @@ static void		print_cubd(t_cubd *g_cubd)
 	printf("F: "), pargb(g_cubd->fc);
 	printf("C: "), pargb(g_cubd->cc);
 	//TODO: print map here
-	
+
 	printf(".cub g_cubda end\n");
 }
 
