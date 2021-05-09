@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:38:00 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 17:49:31 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 20:25:11 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,7 @@ void			dfs_bdcheck(int ox, int cx, int cy)
 	dfs_bdcheck(ox, cx - 1, cy);
 	dfs_bdcheck(ox, cx, cy - 1);
 }
-
-static void		dfs_segment(int cx, int cy)
-{
-	t_map		*map;
-
-	map = &g_cubd->map;
-	if (cx < 0 || cx >= map-> x || cy < 0 || cy >= map->y ||
-		g_va[cy * map->x + cx] || map->dat[cy][cx] == ' ')
-		return ;
-	g_va[cy * map->x + cx] = 1;
-	dfs_segment(cx + 1, cy);
-	dfs_segment(cx, cy + 1);
-	dfs_segment(cx - 1, cy);
-	dfs_segment(cx, cy - 1);
-}
-
+/*
 static int		map_check_chunks(void)
 {
 	t_map		*map;
@@ -90,7 +75,22 @@ static int		map_check_chunks(void)
 	}
 	return (0);
 }
+*/
 
+static void	p_ga()
+{
+	t_map *map = &g_cubd->map;
+
+	for(int i=0; i<map->y + 2; ++i){
+		for(int j=0; j<map->x + 2; ++j){
+			if (g_va[i*(map->x + 2) + j])
+				printf("%c",g_va[i*(map->x + 2) + j] + '0');
+			else
+				printf(" ");
+		}
+		printf("\n");
+	}
+}
 static t_byte	map_at(int y, int x)
 {
 	t_map		*map;
@@ -110,7 +110,6 @@ static void		dfs_map_validate(t_map *map, int y, int x)
 	{
 		free(g_va);
 		g_va = 0;
-		printf("%d %d\n",y,x);
 		perror_exit("Invalid map (incomplete wall)");
 	}
 	if (map_at(y - 1, x - 1) == '1')
@@ -125,6 +124,82 @@ static void		dfs_map_validate(t_map *map, int y, int x)
 	dfs_map_validate(map, y - 1, x + 0);
 	dfs_map_validate(map, y - 1, x + 1);
 }
+/*
+static void		dfs_segment(t_map *map, int y, int x)
+{
+	if (x < 0 || y < 0 || x >= map->x + 2 || y >= map->y + 2 ||
+		g_va[y * (map->x + 2) + x])
+		return ;
+	if (map_at(y - 1, x - 1) == ' ')
+	{
+		free(g_va);
+		g_va = 0;
+		perror_exit("Invalid map (space inside map)");
+	}
+	g_va[y * (map->x + 2) + x] = 1;
+	dfs_segment(map, x + 1, y + 0);
+	dfs_segment(map, x + 0, y + 1);
+	dfs_segment(map, x - 1, y + 0);
+	dfs_segment(map, x + 0, y - 1);
+}
+
+static void		map_validate_internal(t_map *map)
+{
+	int			x;
+	int			y;
+	int			c;
+
+	c = 0;
+	y = -1;
+	while (++y <= map->y + 1)
+	{
+		x = -1;
+		while (++x <= map->x + 1)
+		{
+			if (!g_va[y * (map->x + 2) + x])
+			{
+				printf("%d %d\n\n", y, x);
+				p_ga();
+				if (c++)
+					perror_exit("Invalid map (multiple chunks found)");
+				dfs_segment(map, y, x);
+			}
+		}
+	}
+}
+*/
+static void		map_findSPos(t_map *map)
+{
+	int			y;
+	int			x;
+	int			t;
+
+	y = -1;
+	while (++y < map->y)
+	{
+		x = -1;
+		while (++x < map->x)
+		{
+			t = map->dat[y][x];
+			if (t == 'N' || t == 'S' || t == 'E' || t == 'W')
+			{
+				if (map->sp)
+					perror_exit("Invalid map (multiple start pos)");
+				map->sp = (y * map->x + x);
+				if (t == 'N')
+					map->sd = NORTH;
+				else if (t == 'S')
+					map->sd = SOUTH;
+				else if (t == 'E')
+					map->sd = EAST;
+				else if (t == 'W')
+					map->sd = WEST;
+			}
+		}
+	}
+	if (!map->sp)
+		perror_exit("Invalid map (no start position)");
+}
 
 void			map_validate(void)
 {
@@ -133,7 +208,6 @@ void			map_validate(void)
 	int			y;
 	
 	map = &g_cubd->map;
-	x = -1;
 	y = -1;
 	if (!(g_va = (t_byte *)ft_calloc((map->x + 2) * (map->y + 2),
 													sizeof(t_byte))))
@@ -142,22 +216,13 @@ void			map_validate(void)
 	{
 		x = -1;
 		while (++x <= map->x + 1)
-		{
 			if (!g_va[y * (map->x + 2) + x] && map_at(y - 1, x - 1) == ' ')
-			{
 				dfs_map_validate(map, y, x);
-			}
-		}
 	}
-	for(int i=0; i<map->y + 2; ++i){
-		for(int j=0; j<map->x + 2; ++j){
-			if (g_va[i*(map->x + 2) + j])
-				printf("%c",g_va[i*(map->x + 2) + j] + '0');
-			else
-				printf(" ");
-		}
-		printf("\n");
-	}
+	map_findSPos(map);
+//	map_validate_internal(map);
+//	printf("\n\n");
+//	p_ga();
 /*	
 	printf("map size: %d x %d\n",map->y, map->x);
 	if (!(g_va = (t_byte *)ft_calloc(map->x * map->y, sizeof(t_byte))))

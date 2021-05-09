@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/07 20:28:57 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/09 20:17:31 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct			s_map
 	t_byte				**dat;
 	int					x;
 	int					y;
+	int					sp;
+	t_byte				sd;
 }						t_map;
 
 typedef struct			s_cubd
