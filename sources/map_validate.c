@@ -6,51 +6,49 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:38:00 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 20:57:03 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/10 18:57:45 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static t_byte	*g_va;
-
-static void		dfs_map_validate(t_map *map, int y, int x)
+static void		dfs_map_validate(t_map *map, t_byte *va, int y, int x)
 {
 	if (x < 0 || y < 0 || x >= map->x + 2 || y >= map->y + 2 ||
-		g_va[y * (map->x + 2) + x])
+		va[y * (map->x + 2) + x])
 		return ;
 	if (map_at(map, y - 1, x - 1) != '1' && map_at(map, y - 1, x - 1) != ' ')
 	{
-		free(g_va);
-		g_va = 0;
+		free(va);
+		va = 0;
 		perror_exit("Invalid map (incomplete wall)");
 	}
 	if (map_at(map, y - 1, x - 1) == '1')
 		return ;
-	g_va[y * (map->x + 2) + x] = 1;
-	dfs_map_validate(map, y + 0, x + 1);
-	dfs_map_validate(map, y + 1, x + 1);
-	dfs_map_validate(map, y + 1, x + 0);
-	dfs_map_validate(map, y + 1, x - 1);
-	dfs_map_validate(map, y + 0, x - 1);
-	dfs_map_validate(map, y - 1, x - 1);
-	dfs_map_validate(map, y - 1, x + 0);
-	dfs_map_validate(map, y - 1, x + 1);
+	va[y * (map->x + 2) + x] = 1;
+	dfs_map_validate(map, va, y + 0, x + 1);
+	dfs_map_validate(map, va, y + 1, x + 1);
+	dfs_map_validate(map, va, y + 1, x + 0);
+	dfs_map_validate(map, va, y + 1, x - 1);
+	dfs_map_validate(map, va, y + 0, x - 1);
+	dfs_map_validate(map, va, y - 1, x - 1);
+	dfs_map_validate(map, va, y - 1, x + 0);
+	dfs_map_validate(map, va, y - 1, x + 1);
 }
 
-static void		dfs_segment(t_map *map, int y, int x)
+static void		dfs_segment(t_map *map, t_byte *va, int y, int x)
 {
 	if (x < 0 || y < 0 || x >= map->x + 2 || y >= map->y + 2 ||
-		g_va[y * (map->x + 2) + x])
+		va[y * (map->x + 2) + x])
 		return ;
-	g_va[y * (map->x + 2) + x] = 1;
-	dfs_segment(map, y + 0, x + 1);
-	dfs_segment(map, y + 1, x + 0);
-	dfs_segment(map, y + 0, x - 1);
-	dfs_segment(map, y - 1, x + 0);
+	va[y * (map->x + 2) + x] = 1;
+	dfs_segment(map, va, y + 0, x + 1);
+	dfs_segment(map, va, y + 1, x + 0);
+	dfs_segment(map, va, y + 0, x - 1);
+	dfs_segment(map, va, y - 1, x + 0);
 }
 
-static void		map_check_chunks(t_map *map)
+static void		map_check_chunks(t_map *map, t_byte *va)
 {
 	int			x;
 	int			y;
@@ -63,17 +61,17 @@ static void		map_check_chunks(t_map *map)
 		x = -1;
 		while (++x <= map->x + 1)
 		{
-			if (!g_va[y * (map->x + 2) + x])
+			if (!va[y * (map->x + 2) + x])
 			{
 				if (c++)
 					perror_exit("Invalid map (multiple chunks found)");
-				dfs_segment(map, y, x);
+				dfs_segment(map, va, y, x);
 			}
 		}
 	}
 }
 
-static void		map_check_startpos(t_map *map)
+static void		map_check_startpos(t_map *map, t_byte *va)
 {
 	int			y;
 	int			x;
@@ -103,19 +101,20 @@ void			map_validate(t_map *map)
 {
 	int			x;
 	int			y;
+	t_byte		*va;
 
 	y = -1;
-	if (!(g_va = (t_byte *)ft_calloc((map->x + 2) * (map->y + 2),
+	if (!(va = (t_byte *)ft_calloc((map->x + 2) * (map->y + 2),
 													sizeof(t_byte))))
-		perror_exit("calloc failed for *g_va");
+		perror_exit("calloc failed for *va");
 	while (++y <= map->y + 1)
 	{
 		x = -1;
 		while (++x <= map->x + 1)
-			if (!g_va[y * (map->x + 2) + x] && map_at(map, y - 1, x - 1) == ' ')
-				dfs_map_validate(map, y, x);
+			if (!va[y * (map->x + 2) + x] && map_at(map, y - 1, x - 1) == ' ')
+				dfs_map_validate(map, va, y, x);
 	}
-	map_check_chunks(map);
-	map_check_startpos(map);
-	free(g_va);
+	map_check_chunks(map, va);
+	map_check_startpos(map, va);
+	free(va);
 }

@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 20:57:47 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/10 22:02:04 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <mlx.h>
 # include <fcntl.h>
+# include <math.h>
 # include "libft/libft.h"
 #include <stdio.h>
 
@@ -25,6 +26,15 @@
 
 typedef unsigned int	t_argb;
 typedef unsigned char	t_byte;
+
+typedef struct			s_img
+{
+	void				*obj;
+	char				*addr;
+	int					bpp;
+	int					llen;
+	int					endi;
+}						t_img;
 
 typedef struct			s_res
 {
@@ -51,6 +61,18 @@ typedef struct			s_cubd
 	t_map				map;
 }						t_cubd;
 
+typedef struct			s_meta
+{
+	void				*mlx;
+	void				*win;
+	t_img				*img;
+	t_cubd				*cubd;
+}						t_meta;
+
+t_meta					*get_meta(void);
+t_meta					*meta_init(void);
+void					meta_destroy(void);
+
 void					cub_parse(const char *cub_file);
 void					map_parse(t_list *list);
 
@@ -60,7 +82,13 @@ t_byte					map_char_to_dir(t_byte c);
 
 void					perror_exit(char *estr);
 
-int						cubd_init(void);
-void					cubd_destroy(void);
+void					cubd_destroy(t_cubd **cubd);
+
+void					mmlx_init(t_meta *meta);
+void					mmlx_pixel_put(t_img *img, int x, int y, t_argb col);
+void					mmlx_draw_vline(t_img *img, int x, int y, int len,
+																t_argb col);
+void					mmlx_prep_img(t_img *img, t_cubd *cubd);
+int						render(void *p);
 
 #endif

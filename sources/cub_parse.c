@@ -6,13 +6,11 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 21:01:18 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/10 21:21:37 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-extern t_cubd	*g_cubd;
 
 static void		conv_res(const char *line, t_res *res)
 {
@@ -71,43 +69,30 @@ static char		*conv_tex(const char *line)
 
 static int		parse(const char *line)
 {
+	t_cubd		*cubd;
+
+	cubd = get_meta()->cubd;
 	if (line[0] == '\0')
 		return (1);
 	else if (line[0] == 'R')
-		conv_res(line + 1, &g_cubd->res);
+		conv_res(line + 1, &cubd->res);
 	else if (line[0] == 'S' && line[1] != 'O')
-		g_cubd->sp = conv_tex(line + 1);
+		cubd->sp = conv_tex(line + 1);
 	else if (line[0] == 'F')
-		g_cubd->fc = conv_col(line + 1);
+		cubd->fc = conv_col(line + 1);
 	else if (line[0] == 'C')
-		g_cubd->cc = conv_col(line + 1);
+		cubd->cc = conv_col(line + 1);
 	else if (line[0] == 'N' && line[1] == 'O')
-		g_cubd->tex[NORTH] = conv_tex(line + 2);
+		cubd->tex[NORTH] = conv_tex(line + 2);
 	else if (line[0] == 'S' && line[1] == 'O')
-		g_cubd->tex[SOUTH] = conv_tex(line + 2);
+		cubd->tex[SOUTH] = conv_tex(line + 2);
 	else if (line[0] == 'E' && line[1] == 'A')
-		g_cubd->tex[EAST] = conv_tex(line + 2);
+		cubd->tex[EAST] = conv_tex(line + 2);
 	else if (line[0] == 'W' && line[1] == 'E')
-		g_cubd->tex[WEST] = conv_tex(line + 2);
+		cubd->tex[WEST] = conv_tex(line + 2);
 	else
 		return (0);
 	return (1);
-}
-
-static void		print_cubd(t_cubd *g_cubd)
-{
-	printf(".cub g_cubda start\n");
-	printf("R: %dx%d\n",g_cubd->res.x,g_cubd->res.y);
-	printf("NO: %s\n",g_cubd->tex[NORTH]);
-	printf("SO: %s\n",g_cubd->tex[SOUTH]);
-	printf("WE: %s\n",g_cubd->tex[WEST]);
-	printf("EA: %s\n",g_cubd->tex[EAST]);
-	printf("S: %s\n",g_cubd->sp);
-	printf("F: "), pargb(g_cubd->fc);
-	printf("C: "), pargb(g_cubd->cc);
-	//TODO: print map here
-
-	printf(".cub g_cubda end\n");
 }
 
 void			cub_parse(const char *cub_file)
@@ -135,5 +120,4 @@ void			cub_parse(const char *cub_file)
 	free(line);
 	map_parse(list);
 	ft_lstclear(&list, free);
-	print_cubd(g_cubd);
 }

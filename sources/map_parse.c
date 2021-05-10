@@ -6,13 +6,11 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 20:01:02 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 20:59:43 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/10 21:21:03 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-extern t_cubd	*g_cubd;
 
 static int		valid_char(char c)
 {
@@ -45,16 +43,14 @@ static int		validate_line(char *line)
 	return (onec >= 2 ? len + 1 : 0);
 }
 
-static void		parse_list(t_list *list)
+static void		parse_list(t_map *map, t_list *list)
 {
 	t_list		*clist;
-	t_map		*map;
 	int			i;
 	int			j;
 	char		*line;
 
 	clist = list;
-	map = &g_cubd->map;
 	j = 0;
 	while (clist)
 	{
@@ -67,7 +63,6 @@ static void		parse_list(t_list *list)
 		clist = clist->next;
 		j++;
 	}
-	print_map(map);
 }
 
 void			map_parse(t_list *list)
@@ -78,7 +73,7 @@ void			map_parse(t_list *list)
 	int			len;
 
 	clist = list;
-	map = &g_cubd->map;
+	map = &get_meta()->cubd->map;
 	i = -1;
 	while (clist)
 	{
@@ -89,9 +84,9 @@ void			map_parse(t_list *list)
 		clist = clist->next;
 	}
 	if (!(map->dat = (t_byte **)ft_calloc(map->y, sizeof(t_byte *))))
-		perror_exit("Malloc failed on g_cubd->map.dat");
+		perror_exit("Malloc failed @map_parse on map->dat");
 	while (++i < map->y)
 		if (!(map->dat[i] = (t_byte *)malloc(sizeof(t_byte) * map->x)))
-			perror_exit("Malloc failed on g_cubd->map.dat[x]");
-	parse_list(list);
+			perror_exit("Malloc failed @map_parse map.dat[x]");
+	parse_list(map, list);
 }

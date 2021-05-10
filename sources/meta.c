@@ -1,0 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   meta.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
+/*   Updated: 2021/05/10 21:13:03 by minsunki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+
+t_meta				*get_meta(void)
+{
+	static t_meta	*meta;
+
+	if (!meta && (!(meta = (t_meta *)malloc(sizeof(t_meta)))))
+		perror_exit("Malloc failed @get_meta");
+	return (meta);
+}
+
+
+t_meta				*meta_init(void)
+{
+	t_meta			*meta;
+	t_res			*res;
+
+	meta = get_meta();
+	if (!(meta->cubd = (t_cubd *)malloc(sizeof(t_cubd))))
+		perror_exit("Malloc failed @meta_init on meta->cubd");
+	if (!(meta->img = (t_img *)malloc(sizeof(t_img))))
+		perror_exit("Malloc failed @meta_init on meta->img");
+	return (meta);
+}
+
+void				meta_destroy(void)
+{
+	t_meta			*meta;
+	int				i;
+
+	i = -1;
+	meta = get_meta();
+	if (meta->cubd->map.dat)
+	{
+		while (++i < meta->cubd->map.y)
+		{
+			if (!meta->cubd->map.dat[i])
+				break ;
+			free(meta->cubd->map.dat[i]);
+			meta->cubd->map.dat[i] = 0;
+		}
+		free(meta->cubd->map.dat);
+		meta->cubd->map.dat = 0;
+	}
+
+	free(meta->cubd);
+	//free(meta->mlx);
+}

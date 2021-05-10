@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 22:58:50 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 20:44:32 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/10 21:23:24 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,36 @@
 	space:			32
 	shift:			65505
 */
-#include "cub3d.h"
 
-extern t_cubd	*g_cubd;
+#include "cub3d.h"
 
 int				main(int argc, char *argv[])
 {
+	t_meta		*meta;
+
 	if (argc != 2 && argc != 3)
 	{
 		ft_putstr_fd("Usage: ./cub3D cub_file [--save]\n", 1);
 		return (1);
 	}
-	if (!cubd_init())
-		return (1);
+	meta = meta_init();
 	cub_parse(argv[1]);
-	map_validate(&g_cubd->map);
+	map_validate(&meta->cubd->map);
+	mmlx_init(meta);
+	mlx_loop_hook(meta->mlx, render, meta);
+	mlx_loop(meta->mlx);
+//	meta->mlx = mmlx_init();
+
+//	meta_destroy();
+
 	/*
 	if (argc == 3 && argv[2][0] == '-' && argv[2][1] == '-' &&
 		argv[2][2] == 's' && argv[2][3] == 'a' && argv[2][4] == 'v' &&
 		argv[2][5] == 'e' && argv[2][6] == '\0')
 		//--SAVE
 	*/
-	cubd_destroy();
+
+	//cubd_destroy(&meta->cubd);
 	return (0);
 }
 
