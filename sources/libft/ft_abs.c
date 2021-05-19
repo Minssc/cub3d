@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trace.c                                            :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/17 17:06:09 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/17 17:22:06 by minsunki         ###   ########.fr       */
+/*   Created: 2021/05/19 20:38:01 by minsunki          #+#    #+#             */
+/*   Updated: 2021/05/19 20:39:58 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-
-
-void			trace(t_trd *trd, t_vec2 *org_p, t_vec2 *dir_v, double len)
+int			ft_absi(int v)
 {
+	return (v < 0 ? -v : v);
+}
 
+long long	ft_absl(long long v)
+{
+	return (v < 0 ? -v : v);
+}
+
+float		ft_absf(float v)
+{
+	return (v < 0 ? -v : v);
+}
+
+double		ft_absd(double v)
+{
+	return (v < 0 ? -v : v);
 }

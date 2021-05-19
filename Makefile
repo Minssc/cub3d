@@ -6,7 +6,7 @@
 #    By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/22 23:04:25 by minsunki          #+#    #+#              #
-#    Updated: 2021/05/19 17:32:26 by minsunki         ###   ########.fr        #
+#    Updated: 2021/05/19 21:11:20 by minsunki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,10 @@ SRCS_R		=	main.c \
 				map_validate_util.c \
 				mmlx.c \
 				render.c \
-				render2.c \
 				meta.c \
 				hook.c \
 				player.c \
-				mexit.c \
-				trace.c 
+				mexit.c 
 
 SRCS		=	$(addprefix $(SRCF)/, $(SRCS_R))
 

@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 23:54:37 by minsunki          #+#    #+#             */
-/*   Upimged: 2021/05/10 19:19:17 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/19 21:33:20 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			mmlx_draw_line(t_img *img, t_pnt2 sp, t_pnt2 ep, t_argb col)
 	double		dy;
 	int			n;
 
-	n = MAX(ABS(ep.x - sp.x), ABS(ep.y - sp.y));
+	n = ft_maxi(ft_absi(ep.x - sp.x), ft_absi(ep.y - sp.y));
 	dx = (double)(ep.x - sp.x) / n;
 	dy = (double)(ep.y - sp.y) / n;
 	x = sp.x;

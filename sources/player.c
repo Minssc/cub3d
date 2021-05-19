@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 23:40:52 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 00:06:26 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/19 21:33:49 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		pl_move(t_meta *meta, double speed)
 	x = (int)(r->pl_p.x + r->pl_v.x * speed);
 	y = (int)(r->pl_p.y + r->pl_v.y * speed);
 	if (m->dat[y][x] == '1')
-		return;
+		return ;
 	r->pl_p.x += r->pl_v.x * speed;
 	r->pl_p.y += r->pl_v.y * speed;
 }
@@ -43,16 +43,11 @@ void			pl_rotate(t_rend *r, double deg)
 	r->pane_v.y = r->pane_v.x * sinv + r->pane_v.y * cosv;
 }
 
-void			pl_init(t_meta *meta)
+void			pl_init(t_rend *r, t_map *m)
 {
-	t_rend		*r;
-	t_map		*m;
-
-	r = &meta->rend;
-	m = &meta->cubd->map;
-	r->pl_p = VEC2(m->sp % m->x + 0.5, m->sp / m->x + 0.5);
-	r->pl_v = VEC2(0.0, -1.0);
-	r->pane_v = VEC2(0.66, 0.0);
+	r->pl_p = (t_vec2){m->sp % m->x + 0.5, m->sp / m->x + 0.5};
+	r->pl_v = (t_vec2){0.0, -1.0};
+	r->pane_v = (t_vec2){0.66, 0.0};
 	pl_rotate(r, 90.0 * m->sd);
 }
 

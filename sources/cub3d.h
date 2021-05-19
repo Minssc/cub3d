@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 20:28:34 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/19 21:28:29 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@
 # define KC_CTRL 65513
 # define KC_SHIFT 65505
 # define KC_SPACE 32
-
-# define VEC2(X, Y) (t_vec2){(X), (Y)}
-# define PNT2(X, Y) (t_pnt2){(X), (Y)}
-
-# define ABS(X) ((X) < 0 ? -(X) : (X))
-# define MAX(X, Y) ((X) < (Y) ? (Y) : (X))
-# define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
 
 typedef unsigned int	t_argb;
 typedef unsigned char	t_byte;
@@ -99,18 +92,17 @@ typedef struct			s_rend
 	t_vec2				pl_p;
 	t_vec2				pl_v;
 	t_vec2				pane_v;
-	double				scX;
 	t_vec2				ray;
 	t_pnt2				map_p;
 	t_vec2				delta;
 	t_pnt2				step;
 	t_vec2				side_v;
 	int					side;
-	int					hit;
 	double				pwd;
 	int					l_len;
 	int					l_start;
 	int					l_end;
+	double				td;
 }						t_rend;
 
 typedef struct			s_kb
@@ -151,12 +143,8 @@ void					mmlx_draw_line(t_img *img, t_pnt2 sp, t_pnt2 ep,
 void					mmlx_draw_vline(t_img *img, int x, int y, int len,
 																t_argb col);
 void					mmlx_prep_img(t_img *img, t_cubd *cubd);
-int						render(void *p);
-void					ray_dda(t_rend *r, t_res *res, t_map *map);
-void					render_init(t_rend *r, t_cubd *cubd);
 
-void					trace(t_trd *trd, t_vec2 *org_p, t_vec2 *dir_v,
-																double len);
+int						render(t_meta *meta);
 
 int						hook_destroy(t_meta *meta);
 int						hook_keypress(int kc, t_meta *meta);
@@ -164,7 +152,7 @@ int						hook_keyrelease(int kc, t_meta *meta);
 int						hook_think(t_meta *meta);
 
 void					pl_rotate(t_rend *r, double deg);
-void					pl_init(t_meta *meta);
+void					pl_init(t_rend *r, t_map *m);
 void					pl_think(t_meta *meta);
 
 void					mexit(int ec);

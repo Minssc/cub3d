@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 17:27:26 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 18:14:12 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/19 21:32:03 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void			mexit(int ec)
 	exit(1);
 }
 
-void        	perror_exit(char *estr)
+void			perror_exit(char *estr)
 {
-    ft_putstr_fd("Error\n", 1);
-    ft_putstr_fd(estr, 1);
-    ft_putchar_fd('\n', 1);
-    mexit(1);
+	ft_putstr_fd("Error\n", 1);
+	ft_putstr_fd(estr, 1);
+	ft_putchar_fd('\n', 1);
+	mexit(1);
 }
