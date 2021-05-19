@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 21:28:29 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/19 22:20:56 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ typedef struct			s_rend
 	double				pwd;
 	int					l_len;
 	int					l_start;
-	int					l_end;
 	double				td;
 }						t_rend;
 
