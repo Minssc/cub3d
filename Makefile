@@ -6,7 +6,7 @@
 #    By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/22 23:04:25 by minsunki          #+#    #+#              #
-#    Updated: 2021/05/10 19:08:58 by minsunki         ###   ########.fr        #
+#    Updated: 2021/05/19 17:32:26 by minsunki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,16 @@ INCF		=	includes
 SRCS_R		=	main.c \
 				cub_parse.c \
 				map_parse.c \
-				error.c \
 				map_validate.c \
 				map_validate_util.c \
 				mmlx.c \
 				render.c \
-				meta.c
+				render2.c \
+				meta.c \
+				hook.c \
+				player.c \
+				mexit.c \
+				trace.c 
 
 SRCS		=	$(addprefix $(SRCF)/, $(SRCS_R))
 

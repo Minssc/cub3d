@@ -21,26 +21,6 @@ void			mmlx_init(t_meta *meta)
 	meta->img->obj = mlx_new_image(meta->mlx, res->x, res->y);
 	meta->img->addr = mlx_get_data_addr(meta->img->obj, &meta->img->bpp,
 										&meta->img->llen, &meta->img->endi);
-	
-/*
-	mlx->obj = mlx_init();
-	mlx->win = mlx_new_window(mlx->obj, res->x, res->y, "cub3D");
-	mlx->img->ptr = mlx_new_image(mlx->obj, res->x, res->y);
-	mlx->img->addr = mlx_get_data_addr(mlx->img->ptr, &mlx->img->bpp,
-										&mlx->img->llen, &mlx->img->endi);
-	return (mlx);
-	*/
-/*
-	t_res		*res;
-
-	res = &g_cubd->res;
-	if (!(ret = (t_mlx *)malloc(sizeof(t_mlx))))
-		perror_exit("Malloc failed @ mmlx_init");
-	ret->obj = mlx_init();
-	ret->win = mlx_new_window(ret->obj, res->x, res->y, "cub3D");
-	ret->frame = mlx_new_image(ret->obj, 
-	return (ret);
-	*/
 }
 
 void			mmlx_pixel_put(t_img *img, int x, int y, t_argb col)
@@ -49,6 +29,27 @@ void			mmlx_pixel_put(t_img *img, int x, int y, t_argb col)
 
 	dst = img->addr + (y * img->llen + x * (img->bpp >> 3));
 	*(t_argb *)dst = col;
+}
+
+void			mmlx_draw_line(t_img *img, t_pnt2 sp, t_pnt2 ep, t_argb col)
+{
+	double		x;
+	double		y;
+	double		dx;
+	double		dy;
+	int			n;
+
+	n = MAX(ABS(ep.x - sp.x), ABS(ep.y - sp.y));
+	dx = (double)(ep.x - sp.x) / n;
+	dy = (double)(ep.y - sp.y) / n;
+	x = sp.x;
+	y = sp.y;
+	while (n--)
+	{
+		mmlx_pixel_put(img, lround(x), lround(y), col);
+		x += dx;
+		y += dy;
+	}
 }
 
 void			mmlx_draw_vline(t_img *img, int x, int y, int len, t_argb col)

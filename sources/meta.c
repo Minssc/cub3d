@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/10 21:13:03 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/19 20:28:19 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_meta				*get_meta(void)
 	return (meta);
 }
 
-
 t_meta				*meta_init(void)
 {
 	t_meta			*meta;
@@ -32,6 +31,8 @@ t_meta				*meta_init(void)
 		perror_exit("Malloc failed @meta_init on meta->cubd");
 	if (!(meta->img = (t_img *)malloc(sizeof(t_img))))
 		perror_exit("Malloc failed @meta_init on meta->img");
+	if (!(meta->keys = (t_kb *)ft_calloc(1, sizeof(t_kb))))
+		perror_exit("Calloc failed @meta_init on meta->kb");
 	return (meta);
 }
 
@@ -54,7 +55,8 @@ void				meta_destroy(void)
 		free(meta->cubd->map.dat);
 		meta->cubd->map.dat = 0;
 	}
-
 	free(meta->cubd);
-	//free(meta->mlx);
+	free(meta->keys);
+	mlx_destroy_image(meta->mlx, meta->img->obj);
+	mlx_destroy_window(meta->mlx, meta->win);
 }
