@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 20:28:19 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/20 14:23:32 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_meta				*meta_init(void)
 	t_res			*res;
 
 	meta = get_meta();
-	if (!(meta->cubd = (t_cubd *)malloc(sizeof(t_cubd))))
-		perror_exit("Malloc failed @meta_init on meta->cubd");
+	if (!(meta->cubd = (t_cubd *)ft_calloc(1, sizeof(t_cubd))))
+		perror_exit("Calloc failed @meta_init on meta->cubd");
 	if (!(meta->img = (t_img *)malloc(sizeof(t_img))))
 		perror_exit("Malloc failed @meta_init on meta->img");
 	if (!(meta->keys = (t_kb *)ft_calloc(1, sizeof(t_kb))))

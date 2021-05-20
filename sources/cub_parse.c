@@ -6,13 +6,13 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/10 21:21:37 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/20 19:22:46 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void		conv_res(const char *line, t_res *res)
+static void		conv_res(char *line, t_res *res)
 {
 	char		*tmp;
 	char		*sp;
@@ -33,7 +33,7 @@ static void		conv_res(const char *line, t_res *res)
 	free(sp);
 }
 
-static t_argb	conv_col(const char *line)
+static t_argb	conv_col(char *line)
 {
 	char		**spp;
 	int			i;
@@ -59,43 +59,45 @@ static t_argb	conv_col(const char *line)
 	return (argb);
 }
 
-static char		*conv_tex(const char *line)
+static void		conv_tex(char *line, t_meta *meta, t_tex *tp)
 {
-	//TODO lean miniLibX texture system and properly implement
+	t_img		*img;
+
+	img = &tp->img;
 	while (*line == ' ')
 		line++;
-	return (ft_strdup(line));
+	if (img->obj)
+		mlx_destroy_image(meta->mlx, img->obj);
+	//img->obj = mlx_xpm_file_to_image(meta->mlx, line, &tp->x, &tp->y);
+	//img->addr = mlx_get_data_addr(img->obj, &img->bpp, &img->llen, &img->endi);
 }
 
-static int		parse(const char *line)
+static int		parse(t_meta *meta, t_cubd *cubd, char *line)
 {
-	t_cubd		*cubd;
-
-	cubd = get_meta()->cubd;
 	if (line[0] == '\0')
 		return (1);
 	else if (line[0] == 'R')
 		conv_res(line + 1, &cubd->res);
 	else if (line[0] == 'S' && line[1] != 'O')
-		cubd->sp = conv_tex(line + 1);
+		conv_tex(line + 1, meta, &cubd->sp);
 	else if (line[0] == 'F')
 		cubd->fc = conv_col(line + 1);
 	else if (line[0] == 'C')
 		cubd->cc = conv_col(line + 1);
 	else if (line[0] == 'N' && line[1] == 'O')
-		cubd->tex[NORTH] = conv_tex(line + 2);
+		conv_tex(line + 2, meta, &cubd->tex[NORTH]);
 	else if (line[0] == 'S' && line[1] == 'O')
-		cubd->tex[SOUTH] = conv_tex(line + 2);
+		conv_tex(line + 2, meta, &cubd->tex[SOUTH]);
 	else if (line[0] == 'E' && line[1] == 'A')
-		cubd->tex[EAST] = conv_tex(line + 2);
+		conv_tex(line + 2, meta, &cubd->tex[EAST]);
 	else if (line[0] == 'W' && line[1] == 'E')
-		cubd->tex[WEST] = conv_tex(line + 2);
+		conv_tex(line + 2, meta, &cubd->tex[WEST]);
 	else
 		return (0);
 	return (1);
 }
 
-void			cub_parse(const char *cub_file)
+void			cub_parse(t_meta *meta, const char *cub_file)
 {
 	int			fd;
 	char		*line;
@@ -108,7 +110,7 @@ void			cub_parse(const char *cub_file)
 		perror_exit("Failed to read .cub file");
 	while (get_next_line(fd, &line))
 	{
-		if (rmap || !parse(line))
+		if (rmap || !parse(meta, meta->cubd, line))
 		{
 			rmap = 1;
 			ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(line)));

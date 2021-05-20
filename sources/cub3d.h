@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 22:20:56 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/20 14:31:22 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,18 @@ typedef struct			s_map
 	t_byte				sd;
 }						t_map;
 
+typedef struct			s_tex
+{
+	t_img				img;
+	int					x;
+	int					y;
+}						t_tex;
+
 typedef struct			s_cubd
 {
 	t_res				res;
-	char				*tex[4];
-	char				*sp;
+	t_tex				tex[4];
+	t_tex				sp;
 	t_argb				fc;
 	t_argb				cc;
 	t_map				map;
@@ -126,7 +133,7 @@ t_meta					*get_meta(void);
 t_meta					*meta_init(void);
 void					meta_destroy(void);
 
-void					cub_parse(const char *cub_file);
+void					cub_parse(t_meta *meta, const char *cub_file);
 void					map_parse(t_list *list);
 
 void					map_validate(t_map *map);

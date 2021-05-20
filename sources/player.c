@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 23:40:52 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 21:33:49 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/20 19:22:33 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,8 @@ void			pl_think(t_meta *meta)
 {
 	const t_kb	*kb = meta->keys;
 
-	if (kb->w && !kb->s)
-		pl_move(meta, 0.01);
-	else if (!kb->w && kb->s)
-		pl_move(meta, -0.01);
-	if (kb->d && !kb->a)
-		pl_rotate(&meta->rend, 0.4);
-	else if (!kb->d && kb->a)
-		pl_rotate(&meta->rend, -0.4);
+	if (kb->w ^ kb->s)
+		pl_move(meta, (kb->w ? 0.01 : -0.01));
+	if (kb->a ^ kb->d)
+		pl_rotate(&meta->rend, (kb->a ? -0.4 : 0.4));
 }

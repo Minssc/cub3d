@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 22:58:50 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 21:31:17 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/20 01:35:10 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				main(int argc, char *argv[])
 		return (1);
 	}
 	meta = meta_init();
-	cub_parse(argv[1]);
+	cub_parse(meta, argv[1]);
 	map_validate(&meta->cubd->map);
 	mmlx_init(meta);
 	pl_init(&meta->rend, &meta->cubd->map);

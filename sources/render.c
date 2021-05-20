@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 20:55:47 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 22:21:17 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/20 00:50:57 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		set_step(t_rend *r)
 
 static void		perp_and_height(t_rend *r, t_res *res)
 {
-	if (!r->side)
+	if (r->side <= 1)
 		r->pwd = (r->map_p.x - r->pl_p.x + (1 - r->step.x) / 2) / r->ray.x;
 	else
 		r->pwd = (r->map_p.y - r->pl_p.y + (1 - r->step.y) / 2) / r->ray.y;
@@ -45,13 +45,13 @@ static void		ray_dda(t_rend *r, t_res *res, t_map *map)
 		{
 			r->side_v.x += r->delta.x;
 			r->map_p.x += r->step.x;
-			r->side = 0;
+			r->side = (r->step.x < 0 ? 0 : 1);
 		}
 		else
 		{
 			r->side_v.y += r->delta.y;
 			r->map_p.y += r->step.y;
-			r->side = 1;
+			r->side = (r->step.y < 0 ? 2 : 3);
 		}
 		if (map->dat[r->map_p.y][r->map_p.x] == '1')
 			break ;
@@ -78,8 +78,12 @@ int				render(t_meta *meta)
 		set_step(r);
 		ray_dda(r, &meta->cubd->res, &meta->cubd->map);
 		perp_and_height(r, &meta->cubd->res);
-		mmlx_draw_vline(meta->img, x, r->l_start, r->l_len,
-									r->side ? 0x00FFFFFF : 0x00EEEEEE);
+		int cols[4];
+		cols[0] = 0x00FF0000;
+		cols[1] = 0x0000FF00;
+		cols[2] = 0x000000FF;
+		cols[3] = 0x00FFFFFF;
+		mmlx_draw_vline(meta->img, x, r->l_start, r->l_len, cols[r->side]);
 	}
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img->obj, 0, 0);
 	return (0);
