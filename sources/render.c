@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 20:55:47 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/21 19:56:33 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/21 20:51:22 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void		perp_and_height(t_rend *r, t_res *res)
 		r->pwd = (r->map_p.x - r->pl_p.x + (1 - r->step.x) / 2) / r->ray.x;
 	else
 		r->pwd = (r->map_p.y - r->pl_p.y + (1 - r->step.y) / 2) / r->ray.y;
-	r->l_len = (int)(res->y / r->pwd);
-	r->l_start = ft_maxi(0, -r->l_len / 2 + res->y / 2);
-	r->l_len = ft_mini(res->y - 1, r->l_len);
+	r->l_height = (int)(res->y / r->pwd);
+	r->l_start = ft_maxi(0, -r->l_height / 2 + res->y / 2);
+	r->l_len = ft_mini(res->y - 1, r->l_height);
 }
 
 static void		ray_dda(t_rend *r, t_res *res, t_map *map)
@@ -78,14 +78,9 @@ int				render(t_meta *meta)
 		set_step(r);
 		ray_dda(r, &meta->cubd->res, &meta->cubd->map);
 		perp_and_height(r, &meta->cubd->res);
-		int cols[4];
-		cols[0] = 0x00FF0000;
-		cols[1] = 0x0000FF00;
-		cols[2] = 0x000000FF;
-		cols[3] = 0x00FFFFFF;
-		mmlx_draw_vline(meta->img, x, r->l_start, r->l_len, cols[r->side]);
+		//mmlx_draw_vline(meta->img, x, r->l_start, r->l_len, cols[r->side]);
+		mmlx_draw_textured_line(meta, r, x);
 	}
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img->obj, 0, 0);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->cubd->tex[0].img.obj, 10, 10);
 	return (0);
 }

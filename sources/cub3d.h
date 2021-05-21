@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/21 19:48:19 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/21 20:52:17 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct			s_rend
 	t_vec2				side_v;
 	int					side;
 	double				pwd;
+	int					l_height;
 	int					l_len;
 	int					l_start;
 	double				td;
@@ -149,6 +150,7 @@ void					mmlx_draw_line(t_img *img, t_pnt2 sp, t_pnt2 ep,
 void					mmlx_draw_vline(t_img *img, int x, int y, int len,
 																t_argb col);
 void					mmlx_prep_img(t_img *img, t_cubd *cubd);
+void					mmlx_draw_textured_line(t_meta *m, t_rend *r, int x);
 
 int						render(t_meta *meta);
 
