@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/20 19:22:46 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/21 19:53:02 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ static void		conv_tex(char *line, t_meta *meta, t_tex *tp)
 		line++;
 	if (img->obj)
 		mlx_destroy_image(meta->mlx, img->obj);
-	//img->obj = mlx_xpm_file_to_image(meta->mlx, line, &tp->x, &tp->y);
-	//img->addr = mlx_get_data_addr(img->obj, &img->bpp, &img->llen, &img->endi);
+	if (!(img->obj = mlx_xpm_file_to_image(meta->mlx, line, &tp->x, &tp->y)))
+		perror_exit("failed to load texture");
+	img->addr = mlx_get_data_addr(img->obj, &img->bpp, &img->llen, &img->endi);
 }
 
 static int		parse(t_meta *meta, t_cubd *cubd, char *line)

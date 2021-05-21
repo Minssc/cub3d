@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 23:54:37 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 21:33:20 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/21 19:48:56 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void			mmlx_init(t_meta *meta)
 {
 	const t_res	*res = &meta->cubd->res;
 
-	meta->mlx = mlx_init();
 	meta->win = mlx_new_window(meta->mlx, res->x, res->y, "cub3D");
 	meta->img->obj = mlx_new_image(meta->mlx, res->x, res->y);
 	meta->img->addr = mlx_get_data_addr(meta->img->obj, &meta->img->bpp,

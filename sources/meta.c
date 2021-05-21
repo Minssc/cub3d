@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/20 14:23:32 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/21 19:47:55 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_meta				*get_meta(void)
 {
 	static t_meta	*meta;
 
-	if (!meta && (!(meta = (t_meta *)malloc(sizeof(t_meta)))))
-		perror_exit("Malloc failed @get_meta");
+	if (!meta && (!(meta = (t_meta *)ft_calloc(1, sizeof(t_meta)))))
+		perror_exit("Calloc failed @get_meta for meta");
 	return (meta);
 }
 
@@ -29,10 +29,12 @@ t_meta				*meta_init(void)
 	meta = get_meta();
 	if (!(meta->cubd = (t_cubd *)ft_calloc(1, sizeof(t_cubd))))
 		perror_exit("Calloc failed @meta_init on meta->cubd");
-	if (!(meta->img = (t_img *)malloc(sizeof(t_img))))
-		perror_exit("Malloc failed @meta_init on meta->img");
+	if (!(meta->img = (t_img *)ft_calloc(1, sizeof(t_img))))
+		perror_exit("Calloc failed @meta_init on meta->img");
 	if (!(meta->keys = (t_kb *)ft_calloc(1, sizeof(t_kb))))
 		perror_exit("Calloc failed @meta_init on meta->kb");
+	if (!(meta->mlx = mlx_init()))
+		perror_exit("mlx_init failed @meta_init");
 	return (meta);
 }
 
@@ -57,6 +59,8 @@ void				meta_destroy(void)
 	}
 	free(meta->cubd);
 	free(meta->keys);
-	mlx_destroy_image(meta->mlx, meta->img->obj);
-	mlx_destroy_window(meta->mlx, meta->win);
+	if (meta->img->obj)
+		mlx_destroy_image(meta->mlx, meta->img->obj);
+	if (meta->mlx)
+		mlx_destroy_window(meta->mlx, meta->win);
 }
