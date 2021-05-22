@@ -6,31 +6,28 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/21 19:53:02 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/23 02:42:16 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void		conv_res(char *line, t_res *res)
+static void		conv_res(char *line, t_meta *meta, t_res *res)
 {
-	char		*tmp;
-	char		*sp;
+	char		*spp;
+	t_res		sres;
 
 	while (*line == ' ')
 		line++;
-	if (!(tmp = ft_strchr(line, ' ')))
+	if (!(spp = ft_strchr(line, ' ')))
 		perror_exit("Invalid resolution");
-	if (!(sp = ft_substr(line, 0, tmp - line)))
-		perror_exit("Invalid resolution");
-	if ((res->x = ft_atoi(sp)) <= 0)
-		perror_exit("Invalid resolution (x)");
-	free(sp);
-	if (!(sp = ft_substr(line, tmp - line, -1)))
-		perror_exit("Invalid resolution");
-	if ((res->y = ft_atoi(sp)) <= 0)
-		perror_exit("Invalid resolution (y)");
-	free(sp);
+	if ((res->x = ft_atoi(line)) <= 0)
+		perror_exit("Invalid resolution (negative x)");
+	if ((res->y = ft_atoi(spp + 1)) <= 0)
+		perror_exit("Invalid resolution (negative y)");
+	mlx_get_screen_size(meta->mlx, &sres.x, &sres.y);
+	res->x = ft_mini(res->x, sres.x);
+	res->y = ft_mini(res->y, sres.y);
 }
 
 static t_argb	conv_col(char *line)
@@ -78,7 +75,7 @@ static int		parse(t_meta *meta, t_cubd *cubd, char *line)
 	if (line[0] == '\0')
 		return (1);
 	else if (line[0] == 'R')
-		conv_res(line + 1, &cubd->res);
+		conv_res(line + 1, meta, &cubd->res);
 	else if (line[0] == 'S' && line[1] != 'O')
 		conv_tex(line + 1, meta, &cubd->sp);
 	else if (line[0] == 'F')

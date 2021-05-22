@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:53:11 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/23 02:16:30 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/23 02:36:45 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int			hook_destroy(t_meta *meta)
 {
-	printf("hook_destroy called\n");
 	mexit(0);
 }
 
