@@ -6,11 +6,12 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 20:55:47 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/21 20:51:22 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/22 01:10:44 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <time.h>
 
 static void		set_step(t_rend *r)
 {
@@ -28,7 +29,7 @@ static void		set_step(t_rend *r)
 
 static void		perp_and_height(t_rend *r, t_res *res)
 {
-	if (r->side <= 1)
+	if (r->side == 1 || r->side == 3)
 		r->pwd = (r->map_p.x - r->pl_p.x + (1 - r->step.x) / 2) / r->ray.x;
 	else
 		r->pwd = (r->map_p.y - r->pl_p.y + (1 - r->step.y) / 2) / r->ray.y;
@@ -45,13 +46,13 @@ static void		ray_dda(t_rend *r, t_res *res, t_map *map)
 		{
 			r->side_v.x += r->delta.x;
 			r->map_p.x += r->step.x;
-			r->side = (r->step.x < 0 ? 0 : 1);
+			r->side = (r->step.x < 0 ? 3 : 1);
 		}
 		else
 		{
 			r->side_v.y += r->delta.y;
 			r->map_p.y += r->step.y;
-			r->side = (r->step.y < 0 ? 2 : 3);
+			r->side = (r->step.y < 0 ? 2 : 0);
 		}
 		if (map->dat[r->map_p.y][r->map_p.x] == '1')
 			break ;
@@ -60,6 +61,7 @@ static void		ray_dda(t_rend *r, t_res *res, t_map *map)
 
 int				render(t_meta *meta)
 {
+static clock_t tick;
 	t_res		*res;
 	t_rend		*r;
 	int			x;
@@ -78,8 +80,7 @@ int				render(t_meta *meta)
 		set_step(r);
 		ray_dda(r, &meta->cubd->res, &meta->cubd->map);
 		perp_and_height(r, &meta->cubd->res);
-		//mmlx_draw_vline(meta->img, x, r->l_start, r->l_len, cols[r->side]);
-		mmlx_draw_textured_line(meta, r, x);
+		mmlx_draw_textured_line(meta, r, &meta->cubd->tex[r->side], x);
 	}
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img->obj, 0, 0);
 	return (0);

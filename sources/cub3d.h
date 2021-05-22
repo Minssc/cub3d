@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/21 20:52:17 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/23 02:15:36 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # define KC_A 97
 # define KC_S 115
 # define KC_D 100
+# define KC_LA 65361
+# define KC_UA 65362
+# define KC_RA 65363
+# define KC_DA 65364
 # define KC_ESC 65307
 # define KC_CTRL 65513
 # define KC_SHIFT 65505
@@ -118,6 +122,8 @@ typedef struct			s_kb
 	t_byte				a;
 	t_byte				s;
 	t_byte				d;
+	t_byte				la;
+	t_byte				ra;
 }						t_kb;
 
 typedef struct			s_meta
@@ -150,7 +156,9 @@ void					mmlx_draw_line(t_img *img, t_pnt2 sp, t_pnt2 ep,
 void					mmlx_draw_vline(t_img *img, int x, int y, int len,
 																t_argb col);
 void					mmlx_prep_img(t_img *img, t_cubd *cubd);
-void					mmlx_draw_textured_line(t_meta *m, t_rend *r, int x);
+t_argb					mmlx_pixel_at(t_img *img, int x, int y);
+void					mmlx_draw_textured_line(t_meta *m, t_rend *r, t_tex *t,
+																		int x);
 
 int						render(t_meta *meta);
 

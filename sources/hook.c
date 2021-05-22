@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:53:11 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 20:28:00 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/23 02:16:30 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int			hook_destroy(t_meta *meta)
 {
+	printf("hook_destroy called\n");
 	mexit(0);
 }
 
@@ -29,6 +30,10 @@ int			hook_keypress(int kc, t_meta *meta)
 		meta->keys->s = 1;
 	else if (kc == KC_D)
 		meta->keys->d = 1;
+	else if (kc == KC_LA)
+		meta->keys->la = 1;
+	else if (kc == KC_RA)
+		meta->keys->ra = 1;
 }
 
 int			hook_keyrelease(int kc, t_meta *meta)
@@ -41,6 +46,10 @@ int			hook_keyrelease(int kc, t_meta *meta)
 		meta->keys->s = 0;
 	else if (kc == KC_D)
 		meta->keys->d = 0;
+	else if (kc == KC_LA)
+		meta->keys->la = 0;
+	else if (kc == KC_RA)
+		meta->keys->ra = 0;
 }
 
 int			hook_think(t_meta *meta)

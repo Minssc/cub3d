@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 23:54:37 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/21 20:54:15 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/22 01:13:18 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,30 +81,32 @@ t_argb			mmlx_pixel_at(t_img *img, int x, int y)
 	return (*(t_argb *)dst);
 }
 
-void			mmlx_draw_textured_line(t_meta *m, t_rend *r, int x)
+void			mmlx_draw_textured_line(t_meta *m, t_rend *r, t_tex *t, int x)
 {
+	const int	ty = r->l_start + r->l_len;
 	const t_res	*res = &m->cubd->res;
-	t_tex		*tex;
+	double		step;
 	t_pnt2		tex_p;
+	int			y;
 
-	tex = &m->cubd->tex[r->side];
-	if (r->side == 0 || r->side == 2)
-		r->td = r->pl_p.y * r->pwd * r->ray.y;
+	if (r->side == 1 || r->side == 3)
+		r->td = r->pl_p.y + r->pwd * r->ray.y;
 	else
-		r->td = r->pl_p.x * r->pwd * r->ray.x;
+		r->td = r->pl_p.x + r->pwd * r->ray.x;
 	r->td -= floor(r->td);
-	tex_p.x = (int)(r->td * tex->x);
-	if ((r->side == 0 || r->side == 2) && r->ray.x > 0)
-		tex_p.x = tex->x - tex_p.x - 1;
-	if ((r->side == 1 || r->side == 3) && r->ray.y < 0)
-		tex_p.x = tex->x - tex_p.x - 1;
-	double step = 1.0 * tex->y / r->l_height;
-	double texPos = (r->l_start - res->y / 2 + r->l_height / 2) * step;
-	for(int y = r->l_start; y <r->l_start + r->l_len; ++y)
+	tex_p.x = (int)(r->td * t->x);
+	if ((r->side == 0 || r->side == 2) && r->ray.y > 0)
+		tex_p.x = t->x - tex_p.x - 1;
+	if ((r->side == 1 || r->side == 3) && r->ray.x < 0)
+		tex_p.x = t->x - tex_p.x - 1;
+	step = 1.0 * t->y / r->l_height;
+	r->td = (r->l_start - res->y / 2 + r->l_height / 2) * step;
+	y = r->l_start - 1;
+	while (++y < ty)
 	{
-		int texY = (int)texPos & (tex->y - 1);
-		texPos += step;
-		t_argb col = mmlx_pixel_at(&tex->img, tex_p.x, texY);
+		tex_p.y = (int)r->td & (t->y - 1);
+		r->td += step;
+		t_argb col = mmlx_pixel_at(&t->img, tex_p.x, tex_p.y);
 		mmlx_pixel_put(m->img, x, y, col);
 	}
 }
