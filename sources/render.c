@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 20:55:47 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/22 01:10:44 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/23 10:47:03 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,25 @@ static void		ray_dda(t_rend *r, t_res *res, t_map *map)
 	}
 }
 
+static void		dbg_info(t_meta *m)
+{
+static clock_t lc;
+	t_rend *r = &m->rend;
+	int i =0;
+	char str[65535];
+
+	sprintf(str, "pos: %.3lf %.3lf", r->pl_p.x, r->pl_p.y);
+	mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
+
+	sprintf(str, "dir: %.3lf %.3lf", r->pl_v.x, r->pl_v.y);
+	mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
+
+
+	sprintf(str, "Tdelta: %.5lf", (clock() - lc) / (double)CLOCKS_PER_SEC);
+	mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
+	lc = clock();
+}
+
 int				render(t_meta *meta)
 {
 static clock_t tick;
@@ -83,5 +102,6 @@ static clock_t tick;
 		mmlx_draw_textured_line(meta, r, &meta->cubd->tex[r->side], x);
 	}
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img->obj, 0, 0);
+	dbg_info(meta);
 	return (0);
 }

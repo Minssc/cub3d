@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 23:40:52 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/23 02:18:17 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/23 13:15:08 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,56 @@
 
 static void		pl_move(t_meta *meta, double speed)
 {
-	const t_map	*m = &meta->cubd->map;
-	t_rend		*r;
-	int			x;
-	int			y;
+	const double	lim = 0.001;
+	const t_map		*m = &meta->cubd->map;
+	t_rend			*r;
+	int				x;
+	int				y;
 
 	r = &meta->rend;
 	x = (int)(r->pl_p.x + r->pl_v.x * speed);
 	y = (int)(r->pl_p.y + r->pl_v.y * speed);
-	if (m->dat[y][x] == '1')
+	if (m->dat[y][x] != '1')
+	{
+		r->pl_p.x += r->pl_v.x * speed;
+		r->pl_p.y += r->pl_v.y * speed;
 		return ;
-	r->pl_p.x += r->pl_v.x * speed;
-	r->pl_p.y += r->pl_v.y * speed;
+	}
+	if (x != (int)r->pl_p.x && m->dat[(int)r->pl_p.y][x] == '1')
+		r->pl_p.x = (r->pl_v.x * speed < 0 ? (int)r->pl_p.x + lim : x - lim);
+	else
+		r->pl_p.x += r->pl_v.x * speed;
+	if (y != (int)r->pl_p.y && m->dat[y][(int)r->pl_p.x] == '1')
+		r->pl_p.y = (r->pl_v.y * speed < 0 ? (int)r->pl_p.y + lim : y - lim);
+	else
+		r->pl_p.y += r->pl_v.y * speed;
 }
 
 static void		pl_strafe(t_meta *meta, double speed)
 {
-	const t_map	*m = &meta->cubd->map;
-	t_rend		*r;
-	int			x;
-	int			y;
+	const double	lim = 0.001;
+	const t_map		*m = &meta->cubd->map;
+	t_rend			*r;
+	int				x;
+	int				y;
 
 	r = &meta->rend;
 	x = (int)(r->pl_p.x + r->pl_v.y * speed);
 	y = (int)(r->pl_p.y - r->pl_v.x * speed);
-	if (m->dat[y][x] == '1')
+	if (m->dat[y][x] != '1')
+	{
+		r->pl_p.x += r->pl_v.y * speed;
+		r->pl_p.y -= r->pl_v.x * speed;
 		return ;
-	r->pl_p.x += r->pl_v.y * speed;
-	r->pl_p.y -= r->pl_v.x * speed;
+	}
+	if (x != (int)r->pl_p.x && m->dat[(int)r->pl_p.y][x] == '1')
+		r->pl_p.x = (r->pl_v.y * speed < 0 ? (int)r->pl_p.x + lim : x - lim);
+	else
+		r->pl_p.x += r->pl_v.y * speed;
+	if (y != (int)r->pl_p.y && m->dat[y][(int)r->pl_p.x] == '1')
+		r->pl_p.y = (r->pl_v.x * speed > 0 ? (int)r->pl_p.y + lim : y - lim);
+	else
+		r->pl_p.y -= r->pl_v.x * speed;
 }
 
 void			pl_rotate(t_rend *r, double deg)
@@ -74,9 +96,9 @@ void			pl_think(t_meta *meta)
 	const t_kb	*kb = meta->keys;
 
 	if (kb->w ^ kb->s)
-		pl_move(meta, (kb->w ? 0.01 : -0.01));
+		pl_move(meta, (kb->w ? 0.02 : -0.02));
 	if (kb->a ^ kb->d)
-		pl_strafe(meta, (kb->a ? 0.01 : -0.01));
+		pl_strafe(meta, (kb->a ? 0.02 : -0.02));
 	if (kb->la ^ kb->ra)
-		pl_rotate(&meta->rend, (kb->la ? -0.4 : 0.4));
+		pl_rotate(&meta->rend, (kb->la ? -0.6 : 0.6));
 }

@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 23:54:37 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/22 01:13:18 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/23 08:18:43 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,13 @@ void			mmlx_draw_textured_line(t_meta *m, t_rend *r, t_tex *t, int x)
 		tex_p.x = t->x - tex_p.x - 1;
 	if ((r->side == 1 || r->side == 3) && r->ray.x < 0)
 		tex_p.x = t->x - tex_p.x - 1;
-	step = 1.0 * t->y / r->l_height;
+	step = t->y / (double)r->l_height;
 	r->td = (r->l_start - res->y / 2 + r->l_height / 2) * step;
 	y = r->l_start - 1;
 	while (++y < ty)
 	{
-		tex_p.y = (int)r->td & (t->y - 1);
+		tex_p.y = (int)r->td;
 		r->td += step;
-		t_argb col = mmlx_pixel_at(&t->img, tex_p.x, tex_p.y);
-		mmlx_pixel_put(m->img, x, y, col);
+		mmlx_pixel_put(m->img, x, y, mmlx_pixel_at(&t->img, tex_p.x, tex_p.y));
 	}
 }
