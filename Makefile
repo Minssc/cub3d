@@ -6,7 +6,7 @@
 #    By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/22 23:04:25 by minsunki          #+#    #+#              #
-#    Updated: 2021/05/19 21:11:20 by minsunki         ###   ########.fr        #
+#    Updated: 2021/05/25 23:27:22 by minsunki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS_R		=	main.c \
 				meta.c \
 				hook.c \
 				player.c \
-				mexit.c 
+				mexit.c \
+				bitmap.c
 
 SRCS		=	$(addprefix $(SRCF)/, $(SRCS_R))
 

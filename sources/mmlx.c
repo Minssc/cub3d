@@ -6,20 +6,28 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 23:54:37 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/23 08:18:43 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/25 23:16:34 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void			mmlx_init(t_meta *meta)
+void			mmlx_window_init(t_meta *meta)
 {
 	const t_res	*res = &meta->cubd->res;
 
-	meta->win = mlx_new_window(meta->mlx, res->x, res->y, "cub3D");
-	meta->img->obj = mlx_new_image(meta->mlx, res->x, res->y);
-	meta->img->addr = mlx_get_data_addr(meta->img->obj, &meta->img->bpp,
-										&meta->img->llen, &meta->img->endi);
+	if (!(meta->win = mlx_new_window(meta->mlx, res->x, res->y, "cub3D")))
+		perror_exit("mlx_new_window failed @mmlx_init");
+}
+
+void			mmlx_prep_framebuffer(t_meta *meta)
+{
+	const t_res *res = &meta->cubd->res;
+
+    if (!(meta->img->obj = mlx_new_image(meta->mlx, res->x, res->y)))
+        perror_exit("mlx_new_image failed @meta_init");
+    if (!(meta->img->addr = mlx_get_data_addr(meta->img->obj, &meta->img->bpp,                                                  &meta->img->llen, &meta->img->endi)))
+        perror_exit("mlx_get_data_addr failed @meta_init");	
 }
 
 void			mmlx_pixel_put(t_img *img, int x, int y, t_argb col)

@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/23 02:15:36 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/25 23:26:50 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <math.h>
 # include "libft/libft.h"
 #include <stdio.h>
+#include <time.h>
 
 # define PI 3.141592653589793
 # define RADIAN PI / 180.0
@@ -149,7 +150,8 @@ t_byte					map_char_to_dir(t_byte c);
 
 void					cubd_destroy(t_cubd **cubd);
 
-void					mmlx_init(t_meta *meta);
+void					mmlx_window_init(t_meta *meta);
+void					mmlx_prep_framebuffer(t_meta *meta);
 void					mmlx_pixel_put(t_img *img, int x, int y, t_argb col);
 void					mmlx_draw_line(t_img *img, t_pnt2 sp, t_pnt2 ep,
 																t_argb col);
@@ -173,5 +175,7 @@ void					pl_think(t_meta *meta);
 
 void					mexit(int ec);
 void					perror_exit(char *estr);
+
+void					img_to_bmp(t_meta *m);
 
 #endif

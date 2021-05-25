@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/21 19:47:55 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/25 23:11:46 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_meta				*meta_init(void)
 {
 	t_meta			*meta;
 	t_res			*res;
+	t_img			*img;
 
 	meta = get_meta();
 	if (!(meta->cubd = (t_cubd *)ft_calloc(1, sizeof(t_cubd))))
@@ -61,6 +62,6 @@ void				meta_destroy(void)
 	free(meta->keys);
 	if (meta->img->obj)
 		mlx_destroy_image(meta->mlx, meta->img->obj);
-	if (meta->mlx)
+	if (meta->mlx && meta->win)
 		mlx_destroy_window(meta->mlx, meta->win);
 }
