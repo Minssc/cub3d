@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 20:01:02 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/10 21:21:03 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 21:22:18 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 static int		valid_char(char c)
 {
-	return (c == ' ' || c == '0' || c == '1' ||
+	return (c == ' ' || c == '0' || c == '1' || c == '2' ||
 			c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-static int		validate_line(char *line)
+static int		line_width(char *line)
 {
-	int		onec;
-	int		len;
-	int		i;
+	int			len;
+	int			i;
 
-	onec = 0;
 	len = 0;
 	i = 0;
 	while (line[i])
@@ -32,15 +30,10 @@ static int		validate_line(char *line)
 		if (!valid_char(line[i]))
 			return (0);
 		if (line[i] == '1')
-		{
 			len = i;
-			onec++;
-		}
 		i++;
 	}
-	if (!i)
-		return (-1);
-	return (onec >= 2 ? len + 1 : 0);
+	return (len + 1);
 }
 
 static void		parse_list(t_map *map, t_list *list)
@@ -51,8 +44,8 @@ static void		parse_list(t_map *map, t_list *list)
 	char		*line;
 
 	clist = list;
-	j = 0;
-	while (clist)
+	j = -1;
+	while (++j < map->y)
 	{
 		i = -1;
 		line = (char *)clist->content;
@@ -61,7 +54,6 @@ static void		parse_list(t_map *map, t_list *list)
 		while (i < map->x)
 			map->dat[j][i++] = ' ';
 		clist = clist->next;
-		j++;
 	}
 }
 
@@ -70,21 +62,21 @@ void			map_parse(t_list *list)
 	t_map		*map;
 	t_list		*clist;
 	int			i;
-	int			len;
 
 	clist = list;
 	map = &get_meta()->cubd->map;
-	i = -1;
+	i = 0;
 	while (clist)
 	{
-		if ((len = validate_line((char *)clist->content)) == -1)
-			perror_exit("Invalid map data");
-		map->x = ft_maxi(map->x, len);
-		map->y++;
+		i++;
+		map->x = ft_maxi(map->x, line_width(clist->content));
+		if (ft_strchr(clist->content, '1'))
+			map->y = i;
 		clist = clist->next;
 	}
 	if (!(map->dat = (t_byte **)ft_calloc(map->y, sizeof(t_byte *))))
 		perror_exit("Malloc failed @map_parse on map->dat");
+	i = -1;
 	while (++i < map->y)
 		if (!(map->dat[i] = (t_byte *)malloc(sizeof(t_byte) * map->x)))
 			perror_exit("Malloc failed @map_parse map.dat[x]");

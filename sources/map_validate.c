@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:38:00 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/10 18:57:45 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 20:47:08 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,6 @@ static void		dfs_segment(t_map *map, t_byte *va, int y, int x)
 	dfs_segment(map, va, y + 1, x + 0);
 	dfs_segment(map, va, y + 0, x - 1);
 	dfs_segment(map, va, y - 1, x + 0);
-}
-
-static void		map_check_chunks(t_map *map, t_byte *va)
-{
-	int			x;
-	int			y;
-	int			c;
-
-	c = 0;
-	y = -1;
-	while (++y <= map->y + 1)
-	{
-		x = -1;
-		while (++x <= map->x + 1)
-		{
-			if (!va[y * (map->x + 2) + x])
-			{
-				if (c++)
-					perror_exit("Invalid map (multiple chunks found)");
-				dfs_segment(map, va, y, x);
-			}
-		}
-	}
 }
 
 static void		map_check_startpos(t_map *map, t_byte *va)
@@ -114,7 +91,6 @@ void			map_validate(t_map *map)
 			if (!va[y * (map->x + 2) + x] && map_at(map, y - 1, x - 1) == ' ')
 				dfs_map_validate(map, va, y, x);
 	}
-	map_check_chunks(map, va);
 	map_check_startpos(map, va);
 	free(va);
 }

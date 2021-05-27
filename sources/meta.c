@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/25 23:11:46 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:16:05 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,43 @@ t_meta				*meta_init(void)
 	return (meta);
 }
 
+static void			free_mapd(t_map *map)
+{
+	int				i;
+
+	i = -1;
+	if (map->dat)
+	{
+		while (++i < map->y)
+		{
+			if (!map->dat[i])
+				break ;
+			free(map->dat[i]);
+			map->dat[i] = 0;
+		}
+		free(map->dat);
+		map->dat = 0;
+	}
+}
+
+static void			free_texd(t_tex *t)
+{
+	int				i;
+
+	if (!t->dat)
+		return ;
+	i = -1;
+	while (++i < t->y)
+	{
+		if (!t->dat[i])
+			break ;
+		free(t->dat[i]);
+		t->dat[i] = 0;
+	}
+	free(t->dat);
+	t->dat = 0;
+}
+
 void				meta_destroy(void)
 {
 	t_meta			*meta;
@@ -46,18 +83,10 @@ void				meta_destroy(void)
 
 	i = -1;
 	meta = get_meta();
-	if (meta->cubd->map.dat)
-	{
-		while (++i < meta->cubd->map.y)
-		{
-			if (!meta->cubd->map.dat[i])
-				break ;
-			free(meta->cubd->map.dat[i]);
-			meta->cubd->map.dat[i] = 0;
-		}
-		free(meta->cubd->map.dat);
-		meta->cubd->map.dat = 0;
-	}
+	free_mapd(&meta->cubd->map);
+	while (++i < 4)
+		free_texd(&meta->cubd->tex[i]);
+	free_texd(&meta->cubd->sp);
 	free(meta->cubd);
 	free(meta->keys);
 	if (meta->img->obj)

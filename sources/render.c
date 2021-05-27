@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 20:55:47 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/25 19:24:33 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 18:02:04 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ static void		set_step(t_rend *r)
 static void		perp_and_height(t_rend *r, t_res *res)
 {
 	if (r->side == 1 || r->side == 3)
-		r->pwd = (r->map_p.x - r->pl_p.x + (1 - r->step.x) / 2) / r->ray.x;
+		r->pwd = (r->map_p.x - r->pl_p.x + ((1 - r->step.x) >> 1)) / r->ray.x;
 	else
-		r->pwd = (r->map_p.y - r->pl_p.y + (1 - r->step.y) / 2) / r->ray.y;
+		r->pwd = (r->map_p.y - r->pl_p.y + ((1 - r->step.y) >> 1)) / r->ray.y;
 	r->l_height = (int)(res->y / r->pwd);
-	r->l_start = ft_maxi(0, -r->l_height / 2 + res->y / 2);
+	r->l_start = ft_maxi(0, -(r->l_height >> 1) + (res->y >> 1));
 	r->l_len = ft_mini(res->y - 1, r->l_height);
+	r->l_end = r->l_start + r->l_len;
 }
 
 static void		ray_dda(t_rend *r, t_res *res, t_map *map)
@@ -60,14 +61,15 @@ static void		ray_dda(t_rend *r, t_res *res, t_map *map)
 
 int				render(t_meta *meta)
 {
-	t_res		*res;
+	const t_res	*res = &meta->cubd->res;
+	t_cubd		*cubd;
 	t_rend		*r;
 	int			x;
 
-	res = &meta->cubd->res;
 	r = &meta->rend;
+	cubd = meta->cubd;
 	x = -1;
-	mmlx_prep_img(meta->img, meta->cubd);
+	mmlx_prep_img(meta->img, cubd);
 	while (++x < res->x)
 	{
 		r->td = (2 * x) / (double)res->x - 1;
@@ -76,9 +78,9 @@ int				render(t_meta *meta)
 		r->map_p = (t_pnt2){(int)r->pl_p.x, (int)r->pl_p.y};
 		r->delta = (t_vec2){fabs(1 / r->ray.x), fabs(1 / r->ray.y)};
 		set_step(r);
-		ray_dda(r, &meta->cubd->res, &meta->cubd->map);
-		perp_and_height(r, &meta->cubd->res);
-		mmlx_draw_textured_line(meta, r, &meta->cubd->tex[r->side], x);
+		ray_dda(r, &cubd->res, &cubd->map);
+		perp_and_height(r, &cubd->res);
+		mmlx_draw_textured_line(meta, r, &cubd->tex[r->side], x);
 	}
 	return (0);
 }

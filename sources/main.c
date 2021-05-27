@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 22:58:50 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/25 23:27:00 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:19:21 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void		print_usage(void)
 }
 
 static void		cub3d_start(t_meta *meta)
-{
+{	
 	mmlx_window_init(meta);
 	mlx_hook(meta->win, 2, 1L << 0, hook_keypress, meta);
 	mlx_hook(meta->win, 3, 1L << 1, hook_keyrelease, meta);

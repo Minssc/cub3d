@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/25 23:26:50 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 18:06:25 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct			s_img
 	void				*obj;
 	char				*addr;
 	int					bpp;
+	int					bypp;
 	int					llen;
 	int					endi;
 }						t_img;
@@ -84,7 +85,7 @@ typedef struct			s_map
 
 typedef struct			s_tex
 {
-	t_img				img;
+	t_argb				**dat;
 	int					x;
 	int					y;
 }						t_tex;
@@ -114,6 +115,7 @@ typedef struct			s_rend
 	int					l_height;
 	int					l_len;
 	int					l_start;
+	int					l_end;
 	double				td;
 }						t_rend;
 

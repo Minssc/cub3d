@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:53:11 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/25 19:23:51 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 17:09:06 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ static clock_t lc;
     t_rend *r = &m->rend;
     int i =0;
     char str[65535];
+	static clock_t smooth;
+	static int si;
+	static double sav;
 
     sprintf(str, "pos: %.3lf %.3lf", r->pl_p.x, r->pl_p.y);
     mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
@@ -65,7 +68,16 @@ static clock_t lc;
     mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
 
 
-    sprintf(str, "Tdelta: %.5lf", (clock() - lc) / (double)CLOCKS_PER_SEC);
+	smooth += clock() - lc;
+	si++;
+	lc = clock();
+	if (si == 100)
+	{
+		sav = smooth / 100.0;
+		si = 0;
+		smooth = 0;
+	}
+    sprintf(str, "Tdelta: %.5lf", sav / CLOCKS_PER_SEC);
     mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
     lc = clock();
 }

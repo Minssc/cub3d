@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/23 02:42:16 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/27 21:23:19 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_argb	conv_col(char *line)
 	while (spp[i])
 		i++;
 	if (i != 3)
-		perror_exit("Invalid color (incorrect number of elements)");
+		perror_exit("Invalid color (RGB element not three)");
 	while (i--)
 	{
 		if ((tmp = ft_atoi(spp[2 - i])) < 0 || tmp > 255)
@@ -56,6 +56,36 @@ static t_argb	conv_col(char *line)
 	return (argb);
 }
 
+static void		conv_tex(char *line, t_meta *m, t_tex *t)
+{
+	t_img		img;
+	int			x;
+	int			y;
+
+	while (*line == ' ')
+		line++;
+	if (!(img.obj = mlx_xpm_file_to_image(m->mlx, line, &t->x, &t->y)))
+		perror_exit("failed to load texture");
+	if (!(img.addr = mlx_get_data_addr(img.obj, &img.bpp, &img.llen,
+																&img.endi)))
+		perror_exit("mlx_get_data_addr failed @conv_tex");
+	img.bypp = img.bpp >> 3;
+	if (!(t->dat = (t_argb **)ft_calloc(t->y, sizeof(t_argb *))))
+		perror_exit("calloc failed @conv_tex for t->dat");
+	y = -1;
+	while (++y < t->y)
+		if (!(t->dat[y] = (t_argb *)ft_calloc(t->x, sizeof(t_argb))))
+			perror_exit("calloc failed @conv_tex for t->dat[y]");
+	while (--y >= 0)
+	{
+		x = -1;
+		while (++x < t->x)
+			t->dat[y][x] = mmlx_pixel_at(&img, x, y);
+	}
+	mlx_destroy_image(m->mlx, img.obj);
+}
+
+/*
 static void		conv_tex(char *line, t_meta *meta, t_tex *tp)
 {
 	t_img		*img;
@@ -69,6 +99,8 @@ static void		conv_tex(char *line, t_meta *meta, t_tex *tp)
 		perror_exit("failed to load texture");
 	img->addr = mlx_get_data_addr(img->obj, &img->bpp, &img->llen, &img->endi);
 }
+
+*/
 
 static int		parse(t_meta *meta, t_cubd *cubd, char *line)
 {
