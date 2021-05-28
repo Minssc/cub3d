@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:46:30 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:34:39 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,33 +89,31 @@ static int		parse(t_meta *meta, t_cubd *cubd, char *line)
 	return (1);
 }
 
-void			cub_parse(t_meta *meta, const char *cub_file)
+void			cub_parse(t_meta *meta, t_cubd *cubd, const char *cub_file)
 {
-	int			fd;
-	char		*line;
 	t_list		*list;
+	char		*mpr;
+	int			fd;
 	int			rmap;
+	int			r;
 
 	rmap = 0;
 	list = 0;
+	r = 1;
 	if ((fd = open(cub_file, O_RDONLY)) < 0)
 		perror_exit("Failed to read .cub file");
-	while (get_next_line(fd, &line))
+	while (r)
 	{
-		if (rmap || !parse(meta, meta->cubd, line))
-		{
-			if (!rmap++)
-				cp_check_lflag(&meta->cubd->lflag, 0);
-			ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(line)));
-		}
-		free(line);
+		r = get_next_line(fd, &cubd->line);
+		if (rmap || (!parse(meta, cubd, cubd->line) && ++rmap))
+			ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(cubd->line)));
+		free(cubd->line);
+		cubd->line = 0;
 	}
-	if (line[0])
-		ft_lstadd_back(&list, ft_lstnew((void *)ft_strdup(line)));
-	free(line);
-	line = map_parse(list);
+	mpr = map_parse(list);
 	ft_lstclear(&list, free);
-	if (line)
-		perror_exit(line);
 	close(fd);
+	cp_check_lflag(&cubd->lflag, 0);
+	if (mpr)
+		perror_exit(mpr);
 }

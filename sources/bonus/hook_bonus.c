@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:53:11 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 15:56:47 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 21:21:31 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ int			hook_think(t_meta *meta)
 	pl_think(meta);
 	render(meta);
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img->obj, 0, 0);
-	//dbg_info(meta);
+	dbg_info(meta);
 }

@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 00:44:34 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 15:56:42 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 21:21:14 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void		cp_col_validate(char *line)
 
 void		cp_check_lflag(t_byte *lf, t_byte key)
 {
-	if (!key && ((*lf ^ 0xFF) != 1))
-		perror_exit("cub data missing key");
+	//if (!key && ((*lf ^ 0xFF) != 1))
+	//	perror_exit("cub data missing key");
 	if (*lf & key)
 		perror_exit("cub data duplicate key");
 	*lf |= key;

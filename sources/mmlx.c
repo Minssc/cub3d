@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 23:54:37 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:49:55 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:36:53 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void			mmlx_draw_textured_line(t_meta *m, t_rend *r, t_tex *t, int x)
 
 	dtl_prep(m, &tp, t, &step);
 	y = r->l_start - 1;
+	tp.y = (int)r->td;
 	while (++y < r->l_end)
 	{
 		tp.y = (int)r->td;

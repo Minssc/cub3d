@@ -6,7 +6,7 @@
 #    By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/22 23:04:25 by minsunki          #+#    #+#              #
-#    Updated: 2021/05/28 16:56:22 by minsunki         ###   ########.fr        #
+#    Updated: 2021/05/28 23:34:22 by minsunki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ FIL_M		=	main \
 				player \
 				mexit 
 
-FIL_B		=	
+FIL_B		=	bitmap
 
 SRCS_M		=	$(addsuffix .c, $(addprefix $(SRCF)/, $(FIL_M)))
 SRCS_B		=	$(addsuffix _bonus.c, $(addprefix $(SRCF_B)/, $(FIL_M) $(FIL_B)))
@@ -38,7 +38,7 @@ OBJS_M		=	$(SRCS_M:.c=.o)
 OBJS_B		=	$(SRCS_B:.c=.o)
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-O3 -Wall -Wextra -Werror
 CFLAG_EXT	=	-L$(SRCF)/mlx_linux -lmlx \
 				-L/usr/lib -lXext -lX11 -lm -lz \
 				-L$(SRCF)/libft -lft 
@@ -48,7 +48,7 @@ RM			=	rm -f
 			$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME)		:	$(OBJS_M)
-			make all -C $(SRCF)/libft
+			make all -C $(SRCF)/libft -j16
 			$(CC) $(OBJS_M) $(CFLAG) $(CFLAG_EXT) -o $(NAME)
 
 bonus		:	$(OBJS_B)

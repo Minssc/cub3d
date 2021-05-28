@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:59:15 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:28:54 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct			s_cubd
 	t_argb				cc;
 	t_map				map;
 	t_byte				lflag;
+	char				*line;
 }						t_cubd;
 
 typedef struct			s_rend
@@ -148,7 +149,8 @@ t_meta					*get_meta(void);
 t_meta					*meta_init(void);
 void					meta_destroy(void);
 
-void					cub_parse(t_meta *meta, const char *cub_file);
+void					cub_parse(t_meta *meta, t_cubd *cubd,
+														const char *cub_file);
 int						cp_res_isvalid(char *line);
 int						cp_valid_islice(char *str);
 void					cp_col_validate(char *line);

@@ -6,13 +6,13 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:53:11 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:59:53 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:28:43 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int			hook_destroy()
+int			hook_destroy(void)
 {
 	mexit(0);
 	return (0);

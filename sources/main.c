@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 22:58:50 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:56:27 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:26:38 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void		print_usage(void)
 {
-	ft_putstr_fd("Usage: ./cub3D cub_file.cub [--save]\n", 1);
+	ft_putstr_fd("Usage: ./cub3D cub_file.cub\n", 1);
 	exit(1);
 }
 
@@ -38,7 +38,7 @@ int				main(int argc, char *argv[])
 										ft_strlen(argv[1]) - 4, ".cub", 4)))
 		print_usage();
 	meta = meta_init();
-	cub_parse(meta, argv[1]);
+	cub_parse(meta, meta->cubd, argv[1]);
 	mmlx_prep_framebuffer(meta);
 	map_validate(&meta->cubd->map);
 	pl_init(&meta->rend, &meta->cubd->map);

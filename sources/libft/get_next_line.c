@@ -6,45 +6,37 @@
 /*   By: minsunki <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 23:20:08 by minsunki          #+#    #+#             */
-/*   Updated: 2021/04/26 15:48:24 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:17:37 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	find_nl(const char *str)
+static char		**get_buffer(void)
 {
-	size_t		i;
+	static char	*buf;
 
-	i = 0;
-	if (!str)
-		return (-1);
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			return (i);
-		i++;
-	}
-	return (-1);
+	return (&buf);
 }
 
-static int	get_line(char **dat, char **ret)
+static int		get_line(char **dat, char **ret)
 {
-	int		nidx;
-	char	*tmp;
+	char		*nlp;
+	char		*tmp;
 
-	if ((nidx = find_nl(*dat)) != -1)
+	if (*dat && (nlp = ft_strchr(*dat, '\n')))
 	{
-		*ret = ft_substr(*dat, 0, nidx);
+		*nlp = '\0';
 		tmp = *dat;
-		*dat = ft_substr(*dat, nidx + 1, -1);
+		*ret = ft_strdup(*dat);
+		*dat = ft_strdup(nlp + 1);
 		free(tmp);
 		return (1);
 	}
 	return (0);
 }
 
-static int	gnl_eof(char **dat, char **ret)
+static int		gnl_eof(char **dat, char **ret)
 {
 	if (*dat && get_line(dat, ret))
 		return (1);
@@ -58,25 +50,37 @@ static int	gnl_eof(char **dat, char **ret)
 	return (0);
 }
 
-int			get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
-	static char	*dat;
+	char		**dat;
 	char		*tmp;
 	char		buf[BUFFER_SIZE + 1];
 	ssize_t		rbytes;
 
+	dat = get_buffer();
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	while ((rbytes = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[rbytes] = '\0';
-		tmp = dat;
-		dat = ft_strjoin(dat, buf);
+		tmp = *dat;
+		*dat = ft_strjoin(*dat, buf);
 		(tmp ? free(tmp) : tmp);
-		if (get_line(&dat, line))
+		if (get_line(dat, line))
 			return (1);
 	}
 	if (rbytes < 0)
 		return (-1);
-	return (gnl_eof(&dat, line));
+	return (gnl_eof(dat, line));
+}
+
+void			get_next_line_clear(void)
+{
+	char		**buf;
+
+	buf = get_buffer();
+	if (!*buf)
+		return ;	
+	free(*buf);
+	*buf = 0;
 }

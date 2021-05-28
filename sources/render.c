@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 20:55:47 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:57:59 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:55:52 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void		ray_dda(t_rend *r, t_map *map)
 		{
 			r->side_v.x += r->delta.x;
 			r->map_p.x += r->step.x;
-			r->side = (r->step.x < 0 ? 3 : 1);
+			r->side = (r->step.x < 0 ? 1 : 3);
 		}
 		else
 		{

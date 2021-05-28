@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:15:23 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:24:54 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,18 @@ void				meta_destroy(void)
 	free_mapd(&meta->cubd->map);
 	while (++i < 4)
 		free_texd(&meta->cubd->tex[i]);
+	if (meta->cubd->line)
+		free(meta->cubd->line);
 	free(meta->cubd);
 	free(meta->keys);
 	if (meta->img->obj)
 		mlx_destroy_image(meta->mlx, meta->img->obj);
+	free(meta->img);
 	if (meta->mlx && meta->win)
 		mlx_destroy_window(meta->mlx, meta->win);
+	mlx_loop_end(meta->mlx);
+	mlx_destroy_display(meta->mlx);
+	free(meta->mlx);
+	free(meta);
+	get_next_line_clear();
 }

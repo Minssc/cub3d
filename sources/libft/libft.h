@@ -6,7 +6,7 @@
 /*   By: minsunki <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 13:00:40 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/19 20:38:57 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:07:37 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 													void (*del)(void *));
 
 int				get_next_line(int fd, char **line);
+void			get_next_line_clear(void);
+
 int				ft_maxi(int a, int b);
 long long		ft_maxll(long long a, long long b);
 float			ft_maxf(float a, float b);
