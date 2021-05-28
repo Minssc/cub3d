@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   meta.c                                             :+:      :+:    :+:   */
+/*   meta_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:34:16 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:15:23 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:57:12 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 t_meta				*get_meta(void)
 {
@@ -85,6 +85,7 @@ void				meta_destroy(void)
 	free_mapd(&meta->cubd->map);
 	while (++i < 4)
 		free_texd(&meta->cubd->tex[i]);
+	free_texd(&meta->cubd->sp);
 	free(meta->cubd);
 	free(meta->keys);
 	if (meta->img->obj)

@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hook.c                                             :+:      :+:    :+:   */
+/*   hook_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:53:11 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:59:53 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:56:47 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
-int			hook_destroy()
+int			hook_destroy(t_meta *meta)
 {
 	mexit(0);
-	return (0);
 }
 
 int			hook_keypress(int kc, t_meta *meta)
@@ -34,7 +33,6 @@ int			hook_keypress(int kc, t_meta *meta)
 		meta->keys->la = 1;
 	else if (kc == KC_RA)
 		meta->keys->ra = 1;
-	return (0);
 }
 
 int			hook_keyrelease(int kc, t_meta *meta)
@@ -51,7 +49,37 @@ int			hook_keyrelease(int kc, t_meta *meta)
 		meta->keys->la = 0;
 	else if (kc == KC_RA)
 		meta->keys->ra = 0;
-	return (0);
+}
+
+static void     dbg_info(t_meta *m)
+{
+static clock_t lc;
+    t_rend *r = &m->rend;
+    int i =0;
+    char str[65535];
+	static clock_t smooth;
+	static int si;
+	static double sav;
+
+    sprintf(str, "pos: %.3lf %.3lf", r->pl_p.x, r->pl_p.y);
+    mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
+
+    sprintf(str, "dir: %.3lf %.3lf", r->pl_v.x, r->pl_v.y);
+    mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
+
+
+	smooth += clock() - lc;
+	si++;
+	lc = clock();
+	if (si == 100)
+	{
+		sav = smooth / 100.0;
+		si = 0;
+		smooth = 0;
+	}
+    sprintf(str, "Tdelta: %.5lf", sav / CLOCKS_PER_SEC);
+    mlx_string_put(m->mlx, m->win, 100, 50 + i++ * 20, 0x00FFFFFF, str);
+    lc = clock();
 }
 
 int			hook_think(t_meta *meta)
@@ -59,5 +87,5 @@ int			hook_think(t_meta *meta)
 	pl_think(meta);
 	render(meta);
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img->obj, 0, 0);
-	return (0);
+	//dbg_info(meta);
 }

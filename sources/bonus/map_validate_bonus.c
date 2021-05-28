@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_validate.c                                     :+:      :+:    :+:   */
+/*   map_validate_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:38:00 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:57:14 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:57:03 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 static void		dfs_map_validate(t_map *map, t_byte *va, int y, int x)
 {
@@ -36,7 +36,19 @@ static void		dfs_map_validate(t_map *map, t_byte *va, int y, int x)
 	dfs_map_validate(map, va, y - 1, x + 1);
 }
 
-static void		map_check_startpos(t_map *map)
+static void		dfs_segment(t_map *map, t_byte *va, int y, int x)
+{
+	if (x < 0 || y < 0 || x >= map->x + 2 || y >= map->y + 2 ||
+		va[y * (map->x + 2) + x])
+		return ;
+	va[y * (map->x + 2) + x] = 1;
+	dfs_segment(map, va, y + 0, x + 1);
+	dfs_segment(map, va, y + 1, x + 0);
+	dfs_segment(map, va, y + 0, x - 1);
+	dfs_segment(map, va, y - 1, x + 0);
+}
+
+static void		map_check_startpos(t_map *map, t_byte *va)
 {
 	int			y;
 	int			x;
@@ -79,6 +91,6 @@ void			map_validate(t_map *map)
 			if (!va[y * (map->x + 2) + x] && map_at(map, y - 1, x - 1) == ' ')
 				dfs_map_validate(map, va, y, x);
 	}
-	map_check_startpos(map);
+	map_check_startpos(map, va);
 	free(va);
 }

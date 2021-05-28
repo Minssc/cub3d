@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 20:38:13 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/09 21:01:47 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:57:35 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ t_byte			map_char_to_dir(t_byte c)
 		return (EAST);
 	else if (c == 'W')
 		return (WEST);
+	return (0);
 }

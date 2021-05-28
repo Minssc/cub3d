@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 20:55:47 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:57:59 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:57:31 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 static void		set_step(t_rend *r)
 {
@@ -38,7 +38,7 @@ static void		perp_and_height(t_rend *r, t_res *res)
 	r->l_end = r->l_start + r->l_len;
 }
 
-static void		ray_dda(t_rend *r, t_map *map)
+static void		ray_dda(t_rend *r, t_res *res, t_map *map)
 {
 	while (1)
 	{
@@ -78,7 +78,7 @@ int				render(t_meta *meta)
 		r->map_p = (t_pnt2){(int)r->pl_p.x, (int)r->pl_p.y};
 		r->delta = (t_vec2){fabs(1 / r->ray.x), fabs(1 / r->ray.y)};
 		set_step(r);
-		ray_dda(r, &cubd->map);
+		ray_dda(r, &cubd->res, &cubd->map);
 		perp_and_height(r, &cubd->res);
 		mmlx_draw_textured_line(meta, r, &cubd->tex[r->side], x);
 	}

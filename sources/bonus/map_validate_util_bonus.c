@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mexit.c                                            :+:      :+:    :+:   */
+/*   map_validate_util_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/19 17:27:26 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 17:00:06 by minsunki         ###   ########.fr       */
+/*   Created: 2021/05/09 20:38:13 by minsunki          #+#    #+#             */
+/*   Updated: 2021/05/28 15:57:07 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
-void			mexit(int ec)
+t_byte			map_at(t_map *map, int y, int x)
 {
-	meta_destroy();
-	exit(ec);
+	if (x < 0 || y < 0 || x >= map->x || y >= map->y)
+		return (' ');
+	return (map->dat[y][x]);
 }
 
-void			perror_exit(char *estr)
+t_byte			map_char_to_dir(t_byte c)
 {
-	ft_putstr_fd("Error\n", 1);
-	ft_putstr_fd(estr, 1);
-	ft_putchar_fd('\n', 1);
-	mexit(1);
+	if (c == 'N')
+		return (NORTH);
+	else if (c == 'S')
+		return (SOUTH);
+	else if (c == 'E')
+		return (EAST);
+	else if (c == 'W')
+		return (WEST);
 }

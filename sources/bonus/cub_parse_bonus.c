@@ -1,16 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub_parse.c                                        :+:      :+:    :+:   */
+/*   cub_parse_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:46:30 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:56:33 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
+
+static t_byte	conv_res(char *line, t_meta *meta, t_cubd *cubd, t_res *res)
+{
+	char		*spp;
+	t_res		sres;
+
+	cp_check_lflag(&cubd->lflag, CP_R);
+	while (*line == ' ')
+		line++;
+	if (!cp_res_isvalid(line))
+		perror_exit("Invalid resoultion data (only [ 0123456789] allowed");
+	if (!(spp = ft_strchr(line, ' ')))
+		perror_exit("Invalid resolution (not enough elements)");
+	if ((res->x = ft_atoi(line)) <= 0)
+		perror_exit("Invalid resolution (x <= 0)");
+	if ((res->y = ft_atoi(spp + 1)) <= 0)
+		perror_exit("Invalid resolution (y <= 0)");
+	if ((spp = ft_strchr(spp + 1, ' ')) && cp_valid_islice(spp + 1))
+		perror_exit("Invalid resolution (too many elements)");
+	mlx_get_screen_size(meta->mlx, &sres.x, &sres.y);
+	res->x = ft_maxi(ft_mini(res->x, sres.x), 400);
+	res->y = ft_maxi(ft_mini(res->y, sres.y), 300);
+	return (CP_R);
+}
 
 static t_argb	conv_col(char *line, t_cubd *cubd, t_byte key)
 {
@@ -60,8 +84,7 @@ static void		conv_tex(char *line, t_meta *m, t_tex *t, t_byte key)
 	{
 		p.x = -1;
 		while (++p.x < t->x)
-			t->dat[p.y][p.x] = *(t_argb *)(im.addr + p.y * im.llen +
-																p.x * im.bypp);
+			t->dat[p.y][p.x] = mmlx_pixel_at(&im, p.x, p.y);
 	}
 	mlx_destroy_image(m->mlx, im.obj);
 }
@@ -70,6 +93,10 @@ static int		parse(t_meta *meta, t_cubd *cubd, char *line)
 {
 	if (line[0] == '\0')
 		return (1);
+	else if (line[0] == 'R')
+		conv_res(line + 1, meta, cubd, &cubd->res);
+	else if (line[0] == 'S' && line[1] != 'O')
+		conv_tex(line + 1, meta, &cubd->sp, CP_S);
 	else if (line[0] == 'F')
 		cubd->fc = conv_col(line + 1, cubd, CP_F);
 	else if (line[0] == 'C')
@@ -82,8 +109,6 @@ static int		parse(t_meta *meta, t_cubd *cubd, char *line)
 		conv_tex(line + 2, meta, &cubd->tex[EAST], CP_EA);
 	else if (line[0] == 'W' && line[1] == 'E')
 		conv_tex(line + 2, meta, &cubd->tex[WEST], CP_WE);
-	else if (line[0] != ' ' && line[0] != '1')
-		perror_exit("Invalid key");
 	else
 		return (0);
 	return (1);
@@ -117,5 +142,4 @@ void			cub_parse(t_meta *meta, const char *cub_file)
 	ft_lstclear(&list, free);
 	if (line)
 		perror_exit(line);
-	close(fd);
 }

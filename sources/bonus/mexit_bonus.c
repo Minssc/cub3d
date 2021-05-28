@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mexit.c                                            :+:      :+:    :+:   */
+/*   mexit_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 17:27:26 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 17:00:06 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:57:16 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void			mexit(int ec)
 {
 	meta_destroy();
-	exit(ec);
+	exit(1);
 }
 
 void			perror_exit(char *estr)

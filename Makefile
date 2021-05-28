@@ -6,45 +6,57 @@
 #    By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/22 23:04:25 by minsunki          #+#    #+#              #
-#    Updated: 2021/05/25 23:27:22 by minsunki         ###   ########.fr        #
+#    Updated: 2021/05/28 16:56:22 by minsunki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	cub3D
 
 SRCF		=	sources
+SRCF_B		=	$(SRCF)/bonus
 INCF		=	includes
 
-SRCS_R		=	main.c \
-				cub_parse.c \
-				map_parse.c \
-				map_validate.c \
-				map_validate_util.c \
-				mmlx.c \
-				render.c \
-				meta.c \
-				hook.c \
-				player.c \
-				mexit.c \
-				bitmap.c
+FIL_M		=	main \
+				cub_parse \
+				cub_parse_util \
+				map_parse \
+				map_validate \
+				map_validate_util \
+				mmlx \
+				render \
+				meta \
+				hook \
+				player \
+				mexit 
 
-SRCS		=	$(addprefix $(SRCF)/, $(SRCS_R))
+FIL_B		=	
 
-OBJS		=	$(SRCS:.c=.o)
+SRCS_M		=	$(addsuffix .c, $(addprefix $(SRCF)/, $(FIL_M)))
+SRCS_B		=	$(addsuffix _bonus.c, $(addprefix $(SRCF_B)/, $(FIL_M) $(FIL_B)))
+
+OBJS_M		=	$(SRCS_M:.c=.o)
+OBJS_B		=	$(SRCS_B:.c=.o)
+
 CC			=	gcc
-CFLAG		=	#-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
+CFLAG_EXT	=	-L$(SRCF)/mlx_linux -lmlx \
+				-L/usr/lib -lXext -lX11 -lm -lz \
+				-L$(SRCF)/libft -lft 
 RM			=	rm -f
 
+%.o			:	%.c
+			$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME)		:	$(OBJS)
+$(NAME)		:	$(OBJS_M)
 			make all -C $(SRCF)/libft
-			$(CC) $(OBJS) -L$(SRCF)/mlx_linux -lmlx \
-			-L/usr/lib -lXext -lX11 -lm -lz \
-			-L$(SRCF)/libft -lft \
-			-o $(NAME)
+			$(CC) $(OBJS_M) $(CFLAG) $(CFLAG_EXT) -o $(NAME)
+
+bonus		:	$(OBJS_B)
+			make all -C $(SRCF)/libft
+			$(CC) $(OBJS_B) $(CFLAG) $(CFLAG_EXT) -o $(NAME)
 
 clean		:
-			$(RM) $(OBJS)
+			$(RM) $(OBJS_M) $(OBJS_B)
 			make clean -C $(SRCF)/libft
 
 all			:	$(NAME)
@@ -55,6 +67,5 @@ fclean		:	clean
 
 re			:	fclean all
 
-bonus		:	all
 
 .PHONY		:	.c.o all clean fclean re bonus

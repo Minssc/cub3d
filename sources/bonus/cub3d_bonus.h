@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:59:15 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:02:26 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 # include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
+#include <stdio.h>
+#include <time.h>
 
 # define PI 3.141592653589793
-# define RADIAN 0.0174532925199433
+# define RADIAN PI / 180.0
 # define NORTH 0
 # define SOUTH 2
 # define EAST 1
@@ -38,12 +40,14 @@
 # define KC_SHIFT 65505
 # define KC_SPACE 32
 
-# define CP_F 1
-# define CP_C 2
-# define CP_NO 4
-# define CP_SO 8
-# define CP_EA 16
-# define CP_WE 32
+# define CP_R 1
+# define CP_S 2
+# define CP_F 4
+# define CP_C 8
+# define CP_NO 16
+# define CP_SO 32
+# define CP_EA 64
+# define CP_WE 128
 
 typedef unsigned int	t_argb;
 typedef unsigned char	t_byte;
@@ -99,6 +103,7 @@ typedef struct			s_cubd
 {
 	t_res				res;
 	t_tex				tex[4];
+	t_tex				sp;
 	t_argb				fc;
 	t_argb				cc;
 	t_map				map;
@@ -164,13 +169,19 @@ void					cubd_destroy(t_cubd **cubd);
 
 void					mmlx_window_init(t_meta *meta);
 void					mmlx_prep_framebuffer(t_meta *meta);
+void					mmlx_pixel_put(t_img *img, int x, int y, t_argb col);
+void					mmlx_draw_line(t_img *img, t_pnt2 sp, t_pnt2 ep,
+																t_argb col);
+void					mmlx_draw_vline(t_img *img, int x, int y, int len,
+																t_argb col);
 void					mmlx_prep_img(t_img *img, t_cubd *cubd);
+t_argb					mmlx_pixel_at(t_img *img, int x, int y);
 void					mmlx_draw_textured_line(t_meta *m, t_rend *r, t_tex *t,
 																		int x);
 
 int						render(t_meta *meta);
 
-int						hook_destroy(void);
+int						hook_destroy(t_meta *meta);
 int						hook_keypress(int kc, t_meta *meta);
 int						hook_keyrelease(int kc, t_meta *meta);
 int						hook_think(t_meta *meta);
@@ -181,5 +192,7 @@ void					pl_think(t_meta *meta);
 
 void					mexit(int ec);
 void					perror_exit(char *estr);
+
+void					img_to_bmp(t_meta *m);
 
 #endif
