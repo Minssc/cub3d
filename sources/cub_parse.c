@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 23:34:39 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/29 00:23:24 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int		parse(t_meta *meta, t_cubd *cubd, char *line)
 		conv_tex(line + 2, meta, &cubd->tex[EAST], CP_EA);
 	else if (line[0] == 'W' && line[1] == 'E')
 		conv_tex(line + 2, meta, &cubd->tex[WEST], CP_WE);
-	else if (line[0] != ' ' && line[0] != '1')
+	else if (line[0] != ' ' && line[0] != '1' && line[0] != '0')
 		perror_exit("Invalid key");
 	else
 		return (0);

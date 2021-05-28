@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:38:00 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:57:14 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/29 00:24:46 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ void			map_validate(t_map *map)
 			if (!va[y * (map->x + 2) + x] && map_at(map, y - 1, x - 1) == ' ')
 				dfs_map_validate(map, va, y, x);
 	}
-	map_check_startpos(map);
 	free(va);
+	map_check_startpos(map);
 }
