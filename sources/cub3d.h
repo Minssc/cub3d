@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 15:30:45 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/29 00:25:56 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/29 13:49:11 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ void					meta_destroy(void);
 
 void					cub_parse(t_meta *meta, t_cubd *cubd,
 														const char *cub_file);
-int						cp_res_isvalid(char *line);
 int						cp_valid_islice(char *str);
 void					cp_col_validate(char *line);
 void					cp_check_lflag(t_byte *lf, t_byte key);

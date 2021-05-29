@@ -6,22 +6,11 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 00:44:34 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/28 16:37:57 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/29 13:59:14 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int			cp_res_isvalid(char *line)
-{
-	while (*line)
-	{
-		if (!(*line == ' ' || ft_isdigit(*line)))
-			return (0);
-		line++;
-	}
-	return (1);
-}
 
 static void	free_and_perror(char **spp, char *estr)
 {
@@ -58,7 +47,7 @@ int			cp_valid_islice(char *str)
 			else
 				ns = 1;
 		}
-		else if (*str == ' ' && ns)
+		else if (ns && *str == ' ')
 			ss = 1;
 		str++;
 	}

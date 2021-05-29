@@ -6,7 +6,7 @@
 /*   By: minsunki <minsunki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 20:13:30 by minsunki          #+#    #+#             */
-/*   Updated: 2021/05/29 00:23:24 by minsunki         ###   ########.fr       */
+/*   Updated: 2021/05/29 13:56:41 by minsunki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static t_argb	conv_col(char *line, t_cubd *cubd, t_byte key)
 	if ((val = ft_atoi(com + 1)) < 0 || val > 255)
 		perror_exit("Invalid color (B value out of range)");
 	argb += val;
+	if (ft_strchr(com + 1, ','))
+		perror_exit("Invalid color (too many elements)");
 	return (argb);
 }
 
